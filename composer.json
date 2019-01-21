@@ -1,23 +1,32 @@
 {
-	"name"       : "flymke/mark-posts",
-	"description": "Mark and highlight posts, pages and posts of custom post types within the posts overview.",
-	"keywords"   : ["wordpress", "wp-admin"],
-	"homepage"   : "https://github.com/flymke/mark-posts",
-	"license"    : "GPL-2.0+",
-	"authors"    : [
-		{
-			"name"    : "Michael Schönrock",
-			"email"   : "hello@michaelschoenrock.com",
-			"homepage": "http://michaelschoenrock.com"
-		},
-		{
-			"name"    : "Sven Hofmann",
-			"email"   : "info@hofmannsven.com",
-			"homepage": "http://hofmannsven.com"
-		}
-	],
-	"type"       : "wordpress-plugin",
-	"require"    : {
-		"composer/installers": "~1.0"
-	}
+  "name": "hofmannsven/mark-posts",
+  "description": "Mark and highlight posts, pages and posts of custom post types within the posts overview.",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "wordpress",
+    "wordpress-plugin"
+  ],
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Sven Hofmann",
+      "email": "info@hofmannsven.com",
+      "homepage": "https://hofmannsven.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Michael Schönrock",
+      "email": "hello@michaelschoenrock.com",
+      "homepage": "https://www.halloecho.de",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/hofmannsven/mark-posts/issues",
+    "wiki": "https://github.com/hofmannsven/mark-posts/wiki",
+    "source": "https://github.com/hofmannsven/mark-posts"
+  },
+  "require": {
+    "php": ">=5.6"
+  }
 }

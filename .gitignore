@@ -1,4 +1,4 @@
-### OSX ###
+# macOS
 .DS_Store
 .DS_Store?
 .AppleDouble
@@ -17,9 +17,8 @@ Thumbs.db
 Icon
 
 
-### Komodo IDE ###
-*.komodotools
-*.komodoproject
-
-### PhpStorm IDE ###
+# PhpStorm IDE
 *.idea
+
+# Composer
+/vendor
