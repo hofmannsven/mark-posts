@@ -6,12 +6,11 @@
   Developer: Sven Hofmann
   Website: hofmannsven.com
   Twitter: @hofmannsven
-  From: Munich, Germany
+  From: Berlin, Germany
 
   Localization: Yoram Schaffer, Angelo Salvatore Scotto Rosato
 
 /* PLUGIN */
-  Language: English / German / Hebrew / Italian
   Platform: WordPress
-  GitHub Download: https://github.com/flymke/mark-posts
-  WordPress Download: http://wordpress.org/plugins/mark-posts/
+  GitHub Download: https://github.com/hofmannsven/mark-posts
+  WordPress Download: https://wordpress.org/plugins/mark-posts/

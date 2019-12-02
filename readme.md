@@ -21,15 +21,6 @@ Tested up to WordPress 4.0.
 
 ***
 
-### Languages
-
-* English
-* German
-* Hebrew
-* Italian
-
-***
-
 ### Installation
 
 1. Unzip the download package
@@ -40,12 +31,12 @@ Tested up to WordPress 4.0.
 
 ### Wiki
 
-* [Custom Marker Limits](https://github.com/flymke/mark-posts/wiki/Custom-Marker-Limits)
-* [Custom Dashboard Queries](https://github.com/flymke/mark-posts/wiki/Custom-Dashboard-Queries)
-* [Export & Import Markers](https://github.com/flymke/mark-posts/wiki/Export-&-Import)
+* [Custom Marker Limits](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Limits)
+* [Custom Dashboard Queries](https://github.com/hofmannsven/mark-posts/wiki/Custom-Dashboard-Queries)
+* [Export & Import Markers](https://github.com/hofmannsven/mark-posts/wiki/Export-&-Import)
 
 ***
 
 ### Support
 
-If you find an issue, please [raise an issue](https://github.com/flymke/mark-posts/issues/new) on GitHub.
+If you find an issue, please [raise an issue](https://github.com/hofmannsven/mark-posts/issues/new/choose) on GitHub.

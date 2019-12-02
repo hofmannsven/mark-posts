@@ -1,28 +1,17 @@
 <?php
 /**
- * Mark Posts
- *
- * @package   Mark_Posts
- * @author    Michael Schoenrock <hello@michaelschoenrock.com>, Sven Hofmann <info@hofmannsven.com>
- * @license   GPL-2.0+
- * @link      http://flymke.github.io/mark-posts/
- * @copyright 2014 Michael Schoenrock
- *
- * @wordpress-plugin
- * Plugin Name:       Mark Posts
- * Plugin URI:        http://flymke.github.io/mark-posts/
- * Description:       Simply mark and highlight posts, pages and posts of custom post types within the posts overview.
- * Version:           1.2.0
- * Requires at least: 5.6
- * Requires PHP:      7.4
- * Author:            Michael Schoenrock, Sven Hofmann
- * Author URI:        https://www.halloecho.de
- * Contributor:       Sven Hofmann
- * Contributor URI:   https://hofmannsven.com
- * Text Domain:       mark-posts
- * License:           GPL-2.0+
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
- * GitHub Plugin URI: https://github.com/hofmannsven/mark-posts
+ * Plugin Name:     Mark Posts
+ * Description:     Mark and highlight posts, pages and posts of custom post types within the posts overview.
+ * Plugin URI:      https://wordpress.org/plugins/mark-posts
+ * Version:         1.2.0
+ * Author:          Michael Schoenrock, Sven Hofmann
+ * Author URI:      https://www.halloecho.de
+ * Contributor:     Sven Hofmann
+ * Contributor URI: https://hofmannsven.com
+ * License:         GPL-2.0+
+ * License URI:     https://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:     mark-posts
+ * GitHub URI:      https://github.com/hofmannsven/mark-posts
  */
 
 // If this file is called directly, abort.

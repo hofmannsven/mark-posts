@@ -4,11 +4,12 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: mark, mark posts, highlight, highlight posts, status, post status, overview, post overview, featured, custom posts, featured posts, post, posts
 Requires at least: 3.7
 Tested up to: 4.0
-Stable tag: 1.1.1
+Requires PHP: 7.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simply mark and highlight posts, pages and posts of custom post types within the posts overview.
+Mark and highlight posts, pages and posts of custom post types within the posts overview.
 
 == Description ==
 
@@ -22,13 +23,6 @@ Mark Posts plugin provides an easy way to mark and highlight posts, pages and po
 * Quick edit, bulk edit and edit all markers
 * Dashboard widget with marker overview
 * Optional custom setup via filters (See [FAQ](https://wordpress.org/plugins/mark-posts/faq/))
-
-= Languages =
-
-* English
-* German
-* Hebrew
-* Italian
 
 == Installation ==
 
@@ -55,25 +49,25 @@ Mark Posts plugin provides an easy way to mark and highlight posts, pages and po
 
 == Support ==
 
-If you find an issue, please [raise an issue](https://github.com/flymke/mark-posts/issues/new) on GitHub.
+If you find an issue, please [raise an issue](https://github.com/hofmannsven/mark-posts/issues/new/choose) on GitHub.
 
 == Frequently Asked Questions ==
 
 = Can I set specific user roles for specific markers? =
 
-Check the [Custom Marker Limits](https://github.com/flymke/mark-posts/wiki/Custom-Marker-Limits) wiki page for further information.
+Check the [Custom Marker Limits](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Limits) wiki page for further information.
 
 = Can I set custom parameters for the posts displayed on the dashboard? =
 
-Check the [Custom Dashboard Queries](https://github.com/flymke/mark-posts/wiki/Custom-Dashboard-Queries) wiki page for further information.
+Check the [Custom Dashboard Queries](https://github.com/hofmannsven/mark-posts/wiki/Custom-Dashboard-Queries) wiki page for further information.
 
 = Can I export/import markers? =
 
-Check the [Export & Import](https://github.com/flymke/mark-posts/wiki/Export-&-Import) wiki page for further information.
+Check the [Export & Import](https://github.com/hofmannsven/mark-posts/wiki/Export-&-Import) wiki page for further information.
 
 = I'm having issues getting the plugin to work what should I do? =
 
-See [Mark Posts on Github](https://github.com/flymke/mark-posts) for detailed rundown of common issues.
+See [Mark Posts on Github](https://github.com/hofmannsven/mark-posts) for detailed rundown of common issues.
 
 = Where can I get more information and support for this plugin? =
 
@@ -89,6 +83,10 @@ Visit [Mark Posts on Github](https://github.com/flymke/mark-posts)
 5. Shows a screenshot of the Mark Posts dashboard widget
 
 == Changelog ==
+
+= 1.2.0 =
+* Migrate GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
+* Add Composer support
 
 = 1.1.0 =
 * Add `mark_posts_dashboard_query` filter for custom dashboard stats
