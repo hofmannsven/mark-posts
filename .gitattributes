@@ -1,1 +1,7 @@
-* filter=stripWhitespace
+# Directories
+/.github export-ignore
+/.wordpress-org export-ignore
+
+# Files
+/.gitattributes export-ignore
+/.gitignore export-ignore
