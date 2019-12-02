@@ -12,16 +12,17 @@
  * Plugin Name:       Mark Posts
  * Plugin URI:        http://flymke.github.io/mark-posts/
  * Description:       Simply mark and highlight posts, pages and posts of custom post types within the posts overview.
- * Version:           1.1.1
- * Author:            <a href="http://www.aliquit.de" target="_blank">Michael Schoenrock</a>, <a href="http://hofmannsven.com" target="_blank">Sven Hofmann</a>
- * Author URI:        http://www.aliquit.de
+ * Version:           1.2.0
+ * Requires at least: 5.6
+ * Requires PHP:      7.4
+ * Author:            Michael Schoenrock, Sven Hofmann
+ * Author URI:        https://www.halloecho.de
  * Contributor:       Sven Hofmann
- * Contributor URI:   http://hofmannsven.com
+ * Contributor URI:   https://hofmannsven.com
  * Text Domain:       mark-posts
  * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Domain Path:       /languages
- * GitHub Plugin URI: https://github.com/flymke/mark-posts
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
+ * GitHub Plugin URI: https://github.com/hofmannsven/mark-posts
  */
 
 // If this file is called directly, abort.
@@ -38,7 +39,7 @@ if ( ! defined( 'WPINC' ) ) {
  *
  */
 if ( ! defined( 'WP_MARK_POSTS_VERSION' ) ) {
-	define( 'WP_MARK_POSTS_VERSION', '1.1.1' );
+	define( 'WP_MARK_POSTS_VERSION', '1.2.0' );
 }
 
 /*
