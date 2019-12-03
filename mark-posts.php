@@ -60,7 +60,7 @@ register_deactivation_hook( __FILE__, array( 'Mark_Posts', 'deactivate' ) );
 function mark_posts_load_textdomain() {
 	load_plugin_textdomain( 'mark-posts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
-add_action( 'init', 'mark_posts_load_textdomain', 1 );
+add_action( 'plugins_loaded', 'mark_posts_load_textdomain' );
 
 /*
  * Add action plugins_loaded

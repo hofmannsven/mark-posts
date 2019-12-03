@@ -302,7 +302,11 @@ class Mark_Posts_Admin {
 
 		echo '<span class="mark-posts-color"></span>';
 
-		echo '<p>' . sprintf( __( 'Click <a href="%s">here</a> to manage Marker categories.', 'mark-posts' ), esc_url( 'options-general.php?page=mark-posts' ) ) . '</p>';
+		echo '<p>' . sprintf(
+			    /* translators: %s: plugin settings page */
+		        __( 'Click <a href="%s">here</a> to manage Marker categories.', 'mark-posts' ),
+                esc_url( 'options-general.php?page=mark-posts' )
+            ) . '</p>';
 
 	}
 
