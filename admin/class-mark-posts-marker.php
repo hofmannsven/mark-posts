@@ -4,7 +4,6 @@
  *
  * @author    Michael Schoenrock <hello@michaelschoenrock.com>, Sven Hofmann <info@hofmannsven.com>
  * @license   GPL-2.0+
- * @copyright 2014 Michael Schoenrock
  */
 
 // If this file is called directly, abort.

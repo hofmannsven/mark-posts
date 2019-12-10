@@ -1,8 +1,14 @@
 # Changelog
 
+Notable changes and release notes of the Mark Posts WordPress plugin.
+
+## 1.2.1
+* Exclude internal post types per default
+* Add [`mark_posts_excluded_post_types`](https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types) filter
+
 ## 1.2.0
 * Migrate GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
-* Add Composer support
+* Add [composer support](https://packagist.org/packages/hofmannsven/mark-posts)
 
 ## 1.1.0
 * Add `mark_posts_dashboard_query` filter for custom dashboard stats

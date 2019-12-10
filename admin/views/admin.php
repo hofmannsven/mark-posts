@@ -7,7 +7,6 @@
  *
  * @author        Michael Schoenrock <hello@michaelschoenrock.com>, Sven Hofmann <info@hofmannsven.com>
  * @license       GPL-2.0+
- * @copyright     2014 Michael Schoenrock
  */
 
 // If this file is called directly, abort.
@@ -321,14 +320,16 @@ function mark_posts_show_settings()
 
 		<?php
         mark_posts_get_all_types();
-    submit_button(); ?>
+        submit_button();
+        ?>
 
 		<hr />
 		<h3 class="title"><?php _e('Enable/Disable Dashboard Widget', 'mark-posts'); ?></h3>
 
 		<?php
         mark_posts_dashboard();
-    submit_button(); ?>
+        submit_button();
+        ?>
 
 	</form>
 
@@ -349,17 +350,7 @@ function mark_posts_show_settings()
 		<hr />
 		Mark Posts | Version: <?php echo WP_MARK_POSTS_VERSION; ?> | &copy; <?php echo date('Y'); ?>
 		<a href="http://www.aliquit.de" target="_blank">Michael Schoenrock</a>,
-		<a href="http://hofmannsven.com" target="_blank">Sven Hofmann</a>
-		<!-- Donate -->
-		<div class="mark-posts-donate">
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="hosted_button_id" value="QZLNTW4AA4JS2">
-				<input type="image" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
-				<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
-			</form>
-		</div>
-		<!-- /Donate -->
+		<a href="https://hofmannsven.com" target="_blank">Sven Hofmann</a>
 	</div>
 
 </div>
