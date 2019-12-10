@@ -182,6 +182,27 @@ function mark_posts_display_settings_updated()
 }
 
 /**
+ * List of excluded post types.
+ *
+ * @since     1.2.1
+ * @docs      https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types
+ *
+ * @return    array
+ */
+function mark_posts_excluded_post_types() {
+    return apply_filters('mark_posts_excluded_post_types', [
+        'attachment',
+        'revision',
+        'nav_menu_item',
+        'custom_css',
+        'customize_changeset',
+        'oembed_cache',
+        'user_request',
+        'wp_block'
+    ]);
+}
+
+/**
  * Get all available post types.
  *
  * @since     1.0.0
@@ -192,8 +213,8 @@ function mark_posts_get_all_types()
     $option = get_option('mark_posts_settings');
 
     foreach ($all_post_types as $one_post_type) {
-        // do not show attachments, revisions, or nav menu items
-        if (!in_array($one_post_type, ['attachment', 'revision', 'nav_menu_item'])) {
+        // Filter excluded post types.
+        if (!in_array($one_post_type, mark_posts_excluded_post_types())) {
             echo '<p><input name="markertypes[]" type="checkbox" value="'.$one_post_type.'"';
             if (isset($option['mark_posts_posttypes'])) :
                 if (in_array($one_post_type, $option['mark_posts_posttypes'])) :
