@@ -22,3 +22,6 @@ Icon
 
 # Composer
 /vendor
+
+# Dependencies
+/wordpress
