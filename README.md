@@ -27,7 +27,7 @@ Check our [roadmap](https://github.com/hofmannsven/mark-posts/projects/1) for pl
 Using the latest version of WordPress and PHP is highly recommended.
 
 * WordPress 3.7 or newer
-* PHP 5.3 or newer (also tested with PHP 7.4)
+* PHP 7.0 or newer (also tested with PHP 7.4)
 
 ### Using WP-CLI
 1. Install and activate: `wp plugin install mark-posts --activate`
@@ -75,7 +75,7 @@ My GPG fingerprint/key is available on [Keybase](https://keybase.io/hofmannsven)
 
 - [Sven Hofmann](https://github.com/hofmannsven)
 - [Michael Schönrock](https://github.com/flymke)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/hofmannsven/mark-posts/graphs/contributors)
 
 ## License
 

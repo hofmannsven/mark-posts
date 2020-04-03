@@ -3,8 +3,8 @@ Contributors: flymke, hofmannsven
 Tags: mark posts, highlight, highlight posts, status, post status, overview, post overview, featured, custom posts, featured posts, post, posts
 Requires at least: 3.7
 Tested up to: 5.3
-Requires PHP: 7.2
-Stable tag: 1.2.1
+Requires PHP: 7.0
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -29,7 +29,7 @@ Mark Posts plugin provides an easy way to mark and highlight posts, pages and po
 Using the latest version of WordPress and PHP is highly recommended.
 
 * WordPress 3.7 or newer
-* PHP 5.3 or newer (also tested with PHP 7.4)
+* PHP 7.0 or newer (also tested with PHP 7.4)
 
 = Using WP-CLI =
 1. Install and activate: `wp plugin install mark-posts --activate`
@@ -77,7 +77,7 @@ Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/i
 
 = Where can I get more information and support for this plugin? =
 
-Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts)
+Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
 
 == Screenshots ==
@@ -91,12 +91,15 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts)
 == Changelog ==
 
 = 1.2.0 =
-* Migrate GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
-* Add Composer support
+* Migrates GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
+* Adds Composer support
 
 = 1.2.1 =
-* Exclude internal post types per default
-* Add [`mark_posts_excluded_post_types`](https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types) filter
+* Excludes internal post types per default
+* Adds [`mark_posts_excluded_post_types`](https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types) filter
+
+= 1.2.2 =
+* Sets the minimum required PHP version to PHP 7.0
 
 Check our [changelog](https://github.com/hofmannsven/mark-posts/blob/master/CHANGELOG.md) for previous releases.
 
