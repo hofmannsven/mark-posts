@@ -28,7 +28,7 @@ if (!defined('WPINC')) {
  *
  */
 if (!defined('WP_MARK_POSTS_VERSION')) {
-    define('WP_MARK_POSTS_VERSION', '1.2.1');
+    define('WP_MARK_POSTS_VERSION', '1.2.2');
 }
 
 /*
