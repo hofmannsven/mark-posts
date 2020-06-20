@@ -202,6 +202,22 @@ function mark_posts_excluded_post_types() {
 }
 
 /**
+ * Get the readable name of the custom post type.
+ *
+ * @since 1.2.3
+ *
+ * @param string $key
+ *
+ * @return string
+ */
+function mark_posts_get_post_type_name(string $key)
+{
+    $cpt = get_post_type_object($key);
+
+    return is_object($cpt) ? $cpt->labels->name : ucfirst($key);
+}
+
+/**
  * Get all available post types.
  *
  * @since     1.0.0
@@ -218,9 +234,9 @@ function mark_posts_get_all_types()
             if (isset($option['mark_posts_posttypes'])) :
                 if (in_array($one_post_type, $option['mark_posts_posttypes'])) :
                     echo ' checked="checked"';
+                endif;
             endif;
-            endif;
-            echo ' /> '.ucfirst($one_post_type).'</p>';
+            echo ' /> '.mark_posts_get_post_type_name($one_post_type).'</p>';
         }
     }
 }
