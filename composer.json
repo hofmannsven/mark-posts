@@ -27,9 +27,9 @@
     "source": "https://github.com/hofmannsven/mark-posts"
   },
   "require": {
-    "php": ">=5.6"
+    "php": "^7.0"
   },
   "require-dev": {
-    "roots/wordpress": "^5.3"
+    "roots/wordpress": "^5.4"
   }
 }
