@@ -4,7 +4,7 @@ Tags: mark posts, highlight, highlight posts, status, post status, overview, pos
 Requires at least: 3.7
 Tested up to: 5.4
 Requires PHP: 7.0
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -100,6 +100,9 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
 = 1.2.2 =
 * Sets the minimum required PHP version to PHP 7.0
+
+= 1.2.3 =
+* Excludes specific internal plugin post types per default
 
 Check our [changelog](https://github.com/hofmannsven/mark-posts/blob/master/CHANGELOG.md) for previous releases.
 

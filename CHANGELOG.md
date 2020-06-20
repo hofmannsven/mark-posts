@@ -2,6 +2,9 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 1.2.3
+* Excludes specific internal plugin post types per default
+
 ## 1.2.2
 * Sets the minimum required PHP version to PHP 7.0
 

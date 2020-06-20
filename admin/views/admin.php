@@ -197,7 +197,15 @@ function mark_posts_excluded_post_types() {
         'customize_changeset',
         'oembed_cache',
         'user_request',
-        'wp_block'
+        'wp_block',
+        'tcb_symbol',
+        'td_nm_notification',
+        'tve_lead_group',
+        'tve_lead_shortcode',
+        'tve_lead_2s_lightbox',
+        'tve_lead_1c_signup',
+        'tve_form_type',
+        'tcb_content_template',
     ]);
 }
 
