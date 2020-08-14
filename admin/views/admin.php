@@ -186,9 +186,10 @@ function mark_posts_display_settings_updated()
  * @since     1.2.1
  * @docs      https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types
  *
- * @return    array
+ * @return array
  */
-function mark_posts_excluded_post_types() {
+function mark_posts_excluded_post_types()
+{
     return apply_filters('mark_posts_excluded_post_types', [
         'attachment',
         'revision',
@@ -239,11 +240,11 @@ function mark_posts_get_all_types()
         // Filter excluded post types.
         if (!in_array($one_post_type, mark_posts_excluded_post_types())) {
             echo '<p><input name="markertypes[]" type="checkbox" value="'.$one_post_type.'"';
-            if (isset($option['mark_posts_posttypes'])) :
-                if (in_array($one_post_type, $option['mark_posts_posttypes'])) :
+            if (isset($option['mark_posts_posttypes'])) {
+                if (in_array($one_post_type, $option['mark_posts_posttypes'])) {
                     echo ' checked="checked"';
-                endif;
-            endif;
+                }
+            }
             echo ' /> '.mark_posts_get_post_type_name($one_post_type).'</p>';
         }
     }
@@ -258,9 +259,9 @@ function mark_posts_dashboard()
 {
     $option = get_option('mark_posts_settings');
     echo '<p><input name="markerdashboard[]" type="checkbox" value="dashboard"';
-    if (!empty($option['mark_posts_dashboard'])) :
+    if (!empty($option['mark_posts_dashboard'])) {
         echo ' checked="checked"';
-    endif;
+    }
     echo ' /> '.__('Dashboard Widget', 'mark-posts').'</p>';
 }
 
@@ -344,16 +345,14 @@ function mark_posts_show_settings()
 
 		<?php
         mark_posts_get_all_types();
-        submit_button();
-        ?>
+    submit_button(); ?>
 
 		<hr />
 		<h3 class="title"><?php _e('Enable/Disable Dashboard Widget', 'mark-posts'); ?></h3>
 
 		<?php
         mark_posts_dashboard();
-        submit_button();
-        ?>
+    submit_button(); ?>
 
 	</form>
 
