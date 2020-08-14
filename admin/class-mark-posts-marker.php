@@ -26,9 +26,9 @@ class Mark_Posts_Marker
     {
 
         // Retrieve post meta value from the database
-        if (isset($post_id)) :
+        if (isset($post_id)) {
             $value = get_post_meta($post_id, 'mark_posts_term_id', true);
-        endif;
+        }
 
         // Get marker terms
         $markers_terms = get_terms('marker', 'hide_empty=0');
@@ -54,15 +54,15 @@ class Mark_Posts_Marker
                 $select .= '<option value="'.$marker_term->term_id.'" data-color="'.$marker_term->description.'" selected="selected">'.$marker_term->name.'</option>';
             } else {
                 // Check if there is a custom limit
-                if (isset($limited[$marker_term->name])) :
+                if (isset($limited[$marker_term->name])) {
                     // Display markers depending on user capability
-                    if (current_user_can($limited[$marker_term->name])) :
+                    if (current_user_can($limited[$marker_term->name])) {
                         $select .= '<option value="'.$marker_term->term_id.'" data-color="'.$marker_term->description.'">'.$marker_term->name.'</option>';
-                endif;
-                // Display markers if there is no custom limit defined
-                else :
+                    }
+                    // Display markers if there is no custom limit defined
+                } else {
                     $select .= '<option value="'.$marker_term->term_id.'" data-color="'.$marker_term->description.'">'.$marker_term->name.'</option>';
-                endif;
+                }
             }
         }
         $select .= '</select>';

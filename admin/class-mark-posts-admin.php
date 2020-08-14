@@ -58,12 +58,12 @@ class Mark_Posts_Admin
          *
          * @since    1.0.8
          */
-        if (isset($get_mark_posts_setup['mark_posts_dashboard'])):
+        if (isset($get_mark_posts_setup['mark_posts_dashboard'])) {
             $mark_posts_dashboard = $get_mark_posts_setup['mark_posts_dashboard'];
-        if (!empty($mark_posts_dashboard)) :
+            if (!empty($mark_posts_dashboard)) {
                 add_action('wp_dashboard_setup', [$this, 'mark_posts_dashboard_widget']);
-        endif;
-        endif;
+            }
+        }
 
         // Add an action link pointing to the options page
         $plugin_basename = plugin_basename(plugin_dir_path(__DIR__).$this->plugin_slug.'.php');
@@ -148,10 +148,10 @@ class Mark_Posts_Admin
         }
 
         global $pagenow;
-        if ($pagenow == 'options-general.php' || $pagenow == 'edit.php' || $pagenow == 'post.php') :
+        if ($pagenow == 'options-general.php' || $pagenow == 'edit.php' || $pagenow == 'post.php') {
             wp_enqueue_style('wp-color-picker'); // see http://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
-        wp_enqueue_script($this->plugin_slug.'-post-list-marker', plugins_url('assets/js/markposts.js', __FILE__), ['wp-color-picker'], WP_MARK_POSTS_VERSION, true);
-        endif;
+            wp_enqueue_script($this->plugin_slug.'-post-list-marker', plugins_url('assets/js/markposts.js', __FILE__), ['wp-color-picker'], WP_MARK_POSTS_VERSION, true);
+        }
     }
 
     /**
@@ -232,9 +232,9 @@ class Mark_Posts_Admin
         $markers = get_terms('marker', $marker_args);
         echo '<style>';
 
-        foreach ($markers as $marker) :
+        foreach ($markers as $marker) {
             echo '.mark-posts-'.$marker->slug.' a:before { color: '.$marker->description.'} ';
-        endforeach;
+        }
 
         echo '</style>';
     }
@@ -306,8 +306,8 @@ class Mark_Posts_Admin
         echo '<p>'.sprintf(
                 /* translators: %s: plugin settings page */
                 __('Click <a href="%s">here</a> to manage Marker categories.', 'mark-posts'),
-                esc_url('options-general.php?page=mark-posts')
-            ).'</p>';
+            esc_url('options-general.php?page=mark-posts')
+        ).'</p>';
     }
 
     /**
@@ -376,15 +376,16 @@ class Mark_Posts_Admin
     public function mark_posts_delete($post_id)
     {
         // Retrieve post meta value from the database
-        if (isset($post_id)) :
+        if (isset($post_id)) {
             $term = get_post_meta($post_id, 'mark_posts_term_id', true);
-        if (!empty($term)) :
-                wp_set_object_terms($post_id, $term, 'marker'); else :
+            if (!empty($term)) {
+                wp_set_object_terms($post_id, $term, 'marker');
+            } else {
                 wp_set_object_terms($post_id, null, 'marker'); // clear/remove all marker from post with $post_id
-        endif;
-        // Clear transient dashboard stats
-        delete_transient('marker_posts_stats');
-        endif;
+            }
+            // Clear transient dashboard stats
+            delete_transient('marker_posts_stats');
+        }
     }
 
     /**
@@ -467,22 +468,23 @@ class Mark_Posts_Admin
 
         $mark_posts_fields = ['mark_posts_term_id'];
 
-        foreach ($mark_posts_fields as $mark_field) :
-            if (array_key_exists($mark_field, $_POST)) :
+        foreach ($mark_posts_fields as $mark_field) {
+            if (array_key_exists($mark_field, $_POST)) {
                 // update post meta
                 update_post_meta($post_id, $mark_field, $_POST[$mark_field]);
 
-        // update terms
-        $term = get_term($_POST[$mark_field], 'marker');
-        if (!empty($term->name)) :
-                    wp_set_object_terms($post_id, $term->name, 'marker'); else :
+                // update terms
+                $term = get_term($_POST[$mark_field], 'marker');
+                if (!empty($term->name)) {
+                    wp_set_object_terms($post_id, $term->name, 'marker');
+                } else {
                     wp_set_object_terms($post_id, null, 'marker'); // clear/remove all marker from post with $post_id
-        endif;
+                }
 
-        // Clear transient dashboard stats
-        delete_transient('marker_posts_stats');
-        endif;
-        endforeach;
+                // Clear transient dashboard stats
+                delete_transient('marker_posts_stats');
+            }
+        }
     }
 
     /**
@@ -500,7 +502,7 @@ class Mark_Posts_Admin
         if (!empty($post_ids) && is_array($post_ids)) {
             $mark_posts_fields = ['mark_posts_term_id'];
 
-            foreach ($mark_posts_fields as $mark_field) :
+            foreach ($mark_posts_fields as $mark_field) {
 
                 // if it has a value, doesn't update if empty on bulk
                 if (isset($_POST[$mark_field]) && !empty($_POST[$mark_field])) {
@@ -518,8 +520,7 @@ class Mark_Posts_Admin
                         delete_transient('marker_posts_stats');
                     }
                 }
-
-            endforeach;
+            }
         }
     }
 
