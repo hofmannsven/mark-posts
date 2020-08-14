@@ -30,6 +30,6 @@
     "php": "^7.0"
   },
   "require-dev": {
-    "roots/wordpress": "^5.4"
+    "roots/wordpress": "^5.5"
   }
 }
