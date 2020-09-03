@@ -2,9 +2,9 @@
 Contributors: flymke, hofmannsven
 Tags: mark posts, highlight, highlight posts, status, post status, overview, post overview, featured, custom posts, featured posts, post, posts
 Requires at least: 3.7
-Tested up to: 5.5
+Tested up to: 5.5.1
 Requires PHP: 7.0
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -79,7 +79,6 @@ Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/i
 
 Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
-
 == Screenshots ==
 
 1. Shows a screenshot of marked posts in the posts overview.
@@ -103,6 +102,9 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
 = 1.2.3 =
 * Excludes specific internal plugin post types per default
+
+= 1.2.4 =
+* Fixes a bug with WordPress 5.5.1
 
 Check our [changelog](https://github.com/hofmannsven/mark-posts/blob/master/CHANGELOG.md) for previous releases.
 

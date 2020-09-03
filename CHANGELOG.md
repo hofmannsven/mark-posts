@@ -2,6 +2,9 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 1.2.4
+* Fixes a bug with WordPress 5.5.1
+
 ## 1.2.3
 * Excludes specific internal plugin post types per default
 
