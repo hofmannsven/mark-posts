@@ -281,12 +281,22 @@ class Mark_Posts
         $args = [
             'hierarchical'          => true,
             'labels'                => $labels,
-            'show_ui'               => true,
-            'show_admin_column'     => true,
+            'public'                => false,
+            'show_ui'               => false,
+            'show_admin_column'     => false,
             'query_var'             => true,
             'rewrite'               => ['slug' => 'marker'],
             'update_count_callback' => 'marker_update_count_callback',
         ];
+
+        /**
+         * Filter: 'mark_posts_taxonomy_args' - Allow custom parameters for the marker taxonomy.
+         *
+         * @since    2.0.0
+         *
+         * @param array $args Array with taxonomy arguments.
+         */
+        $args = apply_filters('mark_posts_taxonomy_args', $args);
 
         /**
          * Function for updating the marker taxonomy count.

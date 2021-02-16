@@ -2,9 +2,9 @@
 Contributors: flymke, hofmannsven
 Tags: mark posts, highlight, highlight posts, status, post status, overview, post overview, featured, custom posts, featured posts, post, posts
 Requires at least: 3.7
-Tested up to: 5.5.1
+Tested up to: 5.6.1
 Requires PHP: 7.0
-Stable tag: 1.2.4
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -55,6 +55,10 @@ Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/i
 
 == Frequently Asked Questions ==
 
+= How can I display the marker taxonomy terms on my website? =
+
+Check the [Custom Marker Taxonomy Arguments](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Taxonomy-Arguments) wiki page for further information.
+
 = Can I set specific user roles for specific markers? =
 
 Check the [Custom Marker Limits](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Limits) wiki page for further information.
@@ -89,25 +93,25 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
 == Changelog ==
 
-= 1.2.0 =
-* Migrates GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
-* Adds Composer support
+= 2.0.0 =
+* Breaking change: Markers are no longer public by default.
+* Adds [`mark_posts_taxonomy_args`](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Taxonomy-Arguments) filter
+
+= 1.2.4 =
+* Fixes a bug with WordPress 5.5.1
+
+= 1.2.3 =
+* Excludes specific internal plugin post types per default
+
+= 1.2.2 =
+* Sets the minimum required PHP version to PHP 7.0
 
 = 1.2.1 =
 * Excludes internal post types per default
 * Adds [`mark_posts_excluded_post_types`](https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types) filter
 
-= 1.2.2 =
-* Sets the minimum required PHP version to PHP 7.0
-
-= 1.2.3 =
-* Excludes specific internal plugin post types per default
-
-= 1.2.4 =
-* Fixes a bug with WordPress 5.5.1
+= 1.2.0 =
+* Migrates GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
+* Adds Composer support
 
 Check our [changelog](https://github.com/hofmannsven/mark-posts/blob/master/CHANGELOG.md) for previous releases.
-
-== Upgrade Notice ==
-
-No upgrade notices in here yet.

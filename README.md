@@ -49,6 +49,7 @@ Using the latest version of WordPress and PHP is highly recommended.
 
 ## Wiki
 
+* [Custom Marker Taxonomy Arguments](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Taxonomy-Arguments)
 * [Custom Marker Limits](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Limits)
 * [Custom Dashboard Queries](https://github.com/hofmannsven/mark-posts/wiki/Custom-Dashboard-Queries)
 * [Export & Import Markers](https://github.com/hofmannsven/mark-posts/wiki/Export-&-Import)
