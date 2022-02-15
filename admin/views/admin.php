@@ -128,7 +128,7 @@ function mark_posts_validate_form()
             $i = 0;
         }
         foreach ($markers as $marker) {
-            $marker = trim($marker);
+            $marker = trim(sanitize_text_field($marker));
             $color = $default_colors[$i]; // define default color
             wp_insert_term($marker, 'marker', [
                 'name'        => $marker,
@@ -147,9 +147,10 @@ function mark_posts_validate_form()
         $i = 0;
         if (isset($_POST['markernames'])) {
             foreach ($_POST['markernames'] as $markername) {
+                $marker = trim(sanitize_text_field($markername));
                 wp_update_term($_POST['term_ids'][$i], 'marker', [
-                    'name'        => $markername,
-                    'slug'        => sanitize_title($markername),
+                    'name'        => $marker,
+                    'slug'        => sanitize_title($marker),
                     'description' => $_POST['colors'][$i],
                 ]);
                 $i++;
@@ -239,13 +240,13 @@ function mark_posts_get_all_types()
     foreach ($all_post_types as $one_post_type) {
         // Filter excluded post types.
         if (!in_array($one_post_type, mark_posts_excluded_post_types())) {
-            echo '<p><input name="markertypes[]" type="checkbox" value="'.$one_post_type.'"';
+            echo '<p><input name="markertypes[]" type="checkbox" value="'.esc_attr($one_post_type).'"';
             if (isset($option['mark_posts_posttypes'])) {
                 if (in_array($one_post_type, $option['mark_posts_posttypes'])) {
                     echo ' checked="checked"';
                 }
             }
-            echo ' /> '.mark_posts_get_post_type_name($one_post_type).'</p>';
+            echo ' /> '.esc_html(mark_posts_get_post_type_name($one_post_type)).'</p>';
         }
     }
 }
@@ -305,11 +306,11 @@ function mark_posts_show_settings()
                 }
             }
 
-            echo '<tr valign="top"><th scope="row"><input type="text" name="markernames[]" value="'.$marker_term->name.'"></th>';
-            echo '<td width="130"><input type="text" name="colors[]" value="'.$color.'" class="my-color-field" data-default-color="'.$color.'"/></td>';
-            echo '<td><input type="checkbox" name="delete[]" id="delete_'.$marker_term->term_id.'" value="'.$marker_term->term_id.'"> <label for="delete_'.$marker_term->term_id.'">'.__('delete', 'mark-posts').'?</label>';
-            echo '<a href="javascript:void(0);" class="mark-posts-initial" data-confirm-msg="'.__('Do you really want to mark all posts with this marker? Note: This will override all your previous set markers. This will only effect the enabled post types.', 'mark-posts').'" data-term-id="'.$marker_term->term_id.'">'.__('Mark all posts with this marker', 'mark-posts').'</a></td>';
-            echo '<input type="hidden" name="term_ids[]" value="'.$marker_term->term_id.'"/>';
+            echo '<tr valign="top"><th scope="row"><input type="text" name="markernames[]" value="'.esc_html($marker_term->name).'"></th>';
+            echo '<td width="130"><input type="text" name="colors[]" value="'.esc_attr($color).'" class="my-color-field" data-default-color="'.esc_attr($color).'"/></td>';
+            echo '<td><input type="checkbox" name="delete[]" id="delete_'.(int)$marker_term->term_id.'" value="'.(int)$marker_term->term_id.'"> <label for="delete_'.(int)$marker_term->term_id.'">'.__('delete', 'mark-posts').'?</label>';
+            echo '<a href="javascript:void(0);" class="mark-posts-initial" data-confirm-msg="'.__('Do you really want to mark all posts with this marker? Note: This will override all your previous set markers. This will only effect the enabled post types.', 'mark-posts').'" data-term-id="'.(int)$marker_term->term_id.'">'.__('Mark all posts with this marker', 'mark-posts').'</a></td>';
+            echo '<input type="hidden" name="term_ids[]" value="'.(int)$marker_term->term_id.'"/>';
             $i++;
         }
 

@@ -2,9 +2,9 @@
 Contributors: flymke, hofmannsven
 Tags: mark posts, highlight, highlight posts, status, post status, overview, post overview, featured, custom posts, featured posts, post, posts
 Requires at least: 3.7
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 7.0
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -92,6 +92,10 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 5. Shows a screenshot of the Mark Posts dashboard widget.
 
 == Changelog ==
+
+= 2.0.1 =
+* Fixes a possible XSS vulnerability.
+  Thanks @fuzzyap1 for discovering and responsibly disclosing this vulnerability.
 
 = 2.0.0 =
 * Breaking change: Markers are no longer public by default.

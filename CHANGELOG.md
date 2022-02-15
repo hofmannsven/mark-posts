@@ -2,6 +2,10 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.0.1
+* Fixes a possible XSS vulnerability.
+  Thanks @fuzzyap1 for discovering and responsibly disclosing this vulnerability.
+
 ## 2.0.0
 * Breaking change: Markers are no longer public by default.
 * Adds [`mark_posts_taxonomy_args`](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Taxonomy-Arguments) filter

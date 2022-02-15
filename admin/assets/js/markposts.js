@@ -43,7 +43,8 @@
 		var markers = [];
 		var make_markers = $(this).val().split(","); // separate marker by comma
 		$(make_markers).each(function(e) { // push each new marker to array
-			markers.push('<span class="new-marker">'+make_markers[e]+'</span>');
+			var marker = make_markers[e].replace(/(<([^>]+)>)/ig,""); // remove HTML from name (preview only)
+			markers.push('<span class="new-marker">'+marker+'</span>');
 		});
 
 		$('.js-new-markers-intro').show();
