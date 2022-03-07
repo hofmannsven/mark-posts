@@ -534,27 +534,38 @@ class Mark_Posts_Admin
     /**
      * Show column content.
      *
-     * @since    1.0.0
+     * @param string $column_name Custom column name e.g. 'mark_posts_term_id'
+     * @param int $post_id ID of the post e.g. '1'
      *
-     * @param $column_name Custom column name e.g. 'mark_posts_term_id'
-     * @param $post_id     ID of the post e.g. '1'
+     * @since 1.0.0
+     *
      */
-    public function mark_posts_column_content($column_name, $post_id)
+    public function mark_posts_column_content(string $column_name, int $post_id)
     {
-        switch ($column_name) {
+        if ($column_name !== 'mark_posts_term_id') {
+            return;
+        }
 
-            case 'mark_posts_term_id':
-                $value = get_post_meta($post_id, 'mark_posts_term_id', true);
-                if (isset($value)) {
-                    $term = get_term($value, 'marker');
-                    if ($term) {
-                        if (isset($term->description) && isset($term->name)) {
-                            echo '<div id="mark_posts_term_id-'.$post_id.'" class="mark-posts-marker" style="background:'.$term->description.'" data-val="'.$term->term_id.'" data-background="'.$term->description.'">'.$term->name.'</div>';
-                        }
-                    }
-                }
-                break;
+        $value = get_post_meta($post_id, 'mark_posts_term_id', true);
 
+        if (!$value) {
+            return;
+        }
+
+        $term = get_term($value, 'marker');
+
+        if (!$term) {
+            return;
+        }
+
+        if (isset($term->description, $term->name)) {
+            printf(
+                '<div id="mark_posts_term_id-%1$d" class="mark-posts-marker" style="background:%2$s;" data-val="%3$d" data-background="%2$s">%4$s</div>',
+                $post_id,
+                $term->description,
+                $term->term_id,
+                $term->name
+            );
         }
     }
 }
