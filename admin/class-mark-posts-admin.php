@@ -518,13 +518,13 @@ class Mark_Posts_Admin
     /**
      * Set admin column.
      *
-     * @since    1.0.0
+     * @param array $columns Array with existing column names
      *
-     * @param $columns Set custom admin column ID and name
+     * @return array
+     * @since 1.0.0
      *
-     * @return mixed
      */
-    public function mark_posts_column_head($columns)
+    public function mark_posts_column_head(array $columns): array
     {
         $columns['mark_posts_term_id'] = __('Marker', 'mark-posts');
 
