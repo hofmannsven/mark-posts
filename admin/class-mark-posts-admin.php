@@ -16,20 +16,27 @@ class Mark_Posts_Admin
     /**
      * Instance of this class.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      *
-     * @var object
+     * @var self
      */
-    protected static $instance = null;
+    protected static $instance;
 
     /**
      * Slug of the plugin screen.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      *
      * @var string
      */
-    protected $plugin_screen_hook_suffix = null;
+    protected $plugin_screen_hook_suffix;
+
+    /**
+     * The plugin slug as set in the plugin instance.
+     *
+     * @var string
+     */
+    private $plugin_slug;
 
     /**
      * Initialize the plugin by loading admin scripts & styles and adding a settings page and menu.
@@ -38,13 +45,7 @@ class Mark_Posts_Admin
      */
     private function __construct()
     {
-
-        /**
-         * Call $plugin_slug from public plugin class.
-         */
-        $plugin = Mark_Posts::get_instance();
-        $this->plugin_slug = $plugin->get_plugin_slug();
-        $get_mark_posts_setup = get_option('mark_posts_settings');
+        $this->plugin_slug = Mark_Posts::get_instance()->get_plugin_slug();
 
         // Load admin style sheet and JavaScript
         add_action('admin_enqueue_scripts', [$this, 'mark_posts_enqueue_admin_styles']);
@@ -53,21 +54,20 @@ class Mark_Posts_Admin
         // Add the options page and menu item
         add_action('admin_menu', [$this, 'mark_posts_add_plugin_admin_menu']);
 
-        /*
+        $get_mark_posts_setup = get_option('mark_posts_settings');
+
+        /**
          * Add dashboard
          *
-         * @since    1.0.8
+         * @since 1.0.8
          */
-        if (isset($get_mark_posts_setup['mark_posts_dashboard'])) {
-            $mark_posts_dashboard = $get_mark_posts_setup['mark_posts_dashboard'];
-            if (!empty($mark_posts_dashboard)) {
-                add_action('wp_dashboard_setup', [$this, 'mark_posts_dashboard_widget']);
-            }
+        if (!empty($get_mark_posts_setup['mark_posts_dashboard'])) {
+            add_action('wp_dashboard_setup', [$this, 'mark_posts_dashboard_widget']);
         }
 
         // Add an action link pointing to the options page
-        $plugin_basename = plugin_basename(plugin_dir_path(__DIR__).$this->plugin_slug.'.php');
-        add_filter('plugin_action_links_'.$plugin_basename, [$this, 'mark_posts_add_action_links']);
+        $plugin_basename = plugin_basename(plugin_dir_path(__DIR__) . $this->plugin_slug . '.php');
+        add_filter('plugin_action_links_' . $plugin_basename, [$this, 'mark_posts_add_action_links']);
 
         // Add quick edit and bulk edit actions
         add_action('bulk_edit_custom_box', [$this, 'mark_posts_display_quickedit_box']);
@@ -91,27 +91,25 @@ class Mark_Posts_Admin
         /**
          * Custom admin post columns (custom post types only).
          *
-         * @since    1.0.0
+         * @since 1.0.0
          */
-        $mark_posts_posttypes = $get_mark_posts_setup['mark_posts_posttypes'];
-        foreach ($mark_posts_posttypes as $post_type) {
-            add_filter('manage_'.$post_type.'_posts_columns', [$this, 'mark_posts_column_head'], 10, 2);
-            add_action('manage_'.$post_type.'_posts_custom_column', [$this, 'mark_posts_column_content'], 10, 2);
+        foreach ($get_mark_posts_setup['mark_posts_posttypes'] as $post_type) {
+            add_filter('manage_' . $post_type . '_posts_columns', [$this, 'mark_posts_column_head'], 10, 2);
+            add_action('manage_' . $post_type . '_posts_custom_column', [$this, 'mark_posts_column_content'], 10, 2);
         }
     }
 
     /**
      * Return an instance of this class.
      *
-     * @since     1.0.0
+     * @return self
+     * @since 1.0.0
      *
-     * @return object A single instance of this class
      */
-    public static function get_instance()
+    public static function get_instance(): Mark_Posts_Admin
     {
-
         // If the single instance hasn't been set, set it now.
-        if (null == self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
 
@@ -121,9 +119,9 @@ class Mark_Posts_Admin
     /**
      * Register and enqueue admin-specific style sheet.
      *
-     * @since     1.0.0
+     * @return void
+     * @since 1.0.0
      *
-     * @return null Return early if no settings page is registered
      */
     public function mark_posts_enqueue_admin_styles()
     {
@@ -131,15 +129,15 @@ class Mark_Posts_Admin
             return;
         }
 
-        wp_enqueue_style($this->plugin_slug.'-admin-styles', plugins_url('assets/css/admin.css', __FILE__), [], WP_MARK_POSTS_VERSION);
+        wp_enqueue_style($this->plugin_slug . '-admin-styles', plugins_url('assets/css/admin.css', __FILE__), [], WP_MARK_POSTS_VERSION);
     }
 
     /**
      * Register and enqueue admin-specific JavaScript.
      *
-     * @since     1.0.0
+     * @return void
+     * @since 1.0.0
      *
-     * @return null Return early if no settings page is registered
      */
     public function mark_posts_enqueue_admin_scripts()
     {
@@ -148,20 +146,19 @@ class Mark_Posts_Admin
         }
 
         global $pagenow;
-        if ($pagenow == 'options-general.php' || $pagenow == 'edit.php' || $pagenow == 'post.php') {
+        if ($pagenow === 'options-general.php' || $pagenow === 'edit.php' || $pagenow === 'post.php') {
             wp_enqueue_style('wp-color-picker'); // see http://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
-            wp_enqueue_script($this->plugin_slug.'-post-list-marker', plugins_url('assets/js/markposts.js', __FILE__), ['wp-color-picker'], WP_MARK_POSTS_VERSION, true);
+            wp_enqueue_script($this->plugin_slug . '-post-list-marker', plugins_url('assets/js/markposts.js', __FILE__), ['wp-color-picker'], WP_MARK_POSTS_VERSION, true);
         }
     }
 
     /**
      * Register the administration menu for this plugin into the WordPress Dashboard menu.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_add_plugin_admin_menu()
     {
-
         // add a settings page for this plugin to the Settings menu
         $this->plugin_screen_hook_suffix = add_options_page(
             __('Mark Posts', $this->plugin_slug),
@@ -175,7 +172,7 @@ class Mark_Posts_Admin
     /**
      * Render the settings page for this plugin.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_display_plugin_admin_page()
     {
@@ -202,7 +199,7 @@ class Mark_Posts_Admin
     /**
      * Render the dashboard widget.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_dashboard_info()
     {
@@ -212,11 +209,11 @@ class Mark_Posts_Admin
     /**
      * Load additional dashboard styles.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_enqueue_dashboard_styles()
     {
-        wp_enqueue_style($this->plugin_slug.'-dashboard-styles', plugins_url('assets/css/dashboard.css', __FILE__), [], WP_MARK_POSTS_VERSION);
+        wp_enqueue_style($this->plugin_slug . '-dashboard-styles', plugins_url('assets/css/dashboard.css', __FILE__), [], WP_MARK_POSTS_VERSION);
     }
 
     /**
