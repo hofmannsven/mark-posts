@@ -417,54 +417,52 @@ class Mark_Posts_Admin
     /**
      * Save quick edit.
      *
-     * @since    1.0.0
+     * @param int $post_id ID of the post e.g. '1'
+     * @param WP_Post $post    Information about the post e.g. 'post_type'
      *
-     * @param $post_id ID of the post e.g. '1'
-     * @param $post    Information about the post e.g. 'post_type'
+     * @return void
+     * @since 1.0.0
      *
-     * @return mixed
      */
-    public function mark_posts_save_quick_edit($post_id, $post)
+    public function mark_posts_save_quick_edit(int $post_id, WP_Post $post)
     {
         // pointless if $_POST is empty (this happens on bulk edit)
         if (empty($_POST)) {
-            return $post_id;
+            return;
         }
 
         // verify quick edit nonce
-        if (isset($_POST['_inline_edit']) && !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce')) {
-            return $post_id;
+        if (! isset($_POST['_inline_edit']) ||  !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce')) {
+            return;
         }
 
         // don't mark_posts_save for autosave
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return $post_id;
+            return;
         }
 
         // dont mark_posts_save for revisions
-        if (isset($post->post_type) && $post->post_type == 'revision') {
-            return $post_id;
+        if (isset($post->post_type) && $post->post_type === 'revision') {
+            return;
         }
 
-        $mark_posts_fields = ['mark_posts_term_id'];
+        $mark_field = 'mark_posts_term_id';
 
-        foreach ($mark_posts_fields as $mark_field) {
-            if (array_key_exists($mark_field, $_POST)) {
-                // update post meta
-                update_post_meta($post_id, $mark_field, $_POST[$mark_field]);
-
-                // update terms
-                $term = get_term($_POST[$mark_field], 'marker');
-                if (!empty($term->name)) {
-                    wp_set_object_terms($post_id, $term->name, 'marker');
-                } else {
-                    wp_set_object_terms($post_id, null, 'marker'); // clear/remove all marker from post with $post_id
-                }
-
-                // Clear transient dashboard stats
-                delete_transient('marker_posts_stats');
-            }
+        if (!array_key_exists($mark_field, $_POST)) {
+            return;
         }
+
+        $marker = (int)$_POST[$mark_field];
+
+        // update post meta
+        update_post_meta($post_id, $mark_field, $marker);
+
+        // update terms
+        $term = get_term($marker, 'marker');
+        wp_set_object_terms($post_id, $term->name ?? null, 'marker');
+
+        // Clear transient dashboard stats
+        delete_transient('marker_posts_stats');
     }
 
     /**
