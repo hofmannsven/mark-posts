@@ -468,37 +468,40 @@ class Mark_Posts_Admin
     /**
      * Save bulk edit.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_save_bulk_edit()
     {
-
         // we need the post IDs
-        $post_ids = (isset($_POST['post_ids']) && !empty($_POST['post_ids'])) ? $_POST['post_ids'] : null;
+        $post_ids = array_map('intval', $_POST['post_ids'] ?? []);
 
-        // if we have post IDs
-        if (!empty($post_ids) && is_array($post_ids)) {
-            $mark_posts_fields = ['mark_posts_term_id'];
+        if ($post_ids === []) {
+            return;
+        }
 
-            foreach ($mark_posts_fields as $mark_field) {
+        $mark_field = 'mark_posts_term_id';
 
-                // if it has a value, doesn't update if empty on bulk
-                if (isset($_POST[$mark_field]) && !empty($_POST[$mark_field])) {
+        if (!array_key_exists($mark_field, $_POST)) {
+            return;
+        }
 
-                    // update for each post ID
-                    foreach ($post_ids as $post_id) {
-                        // update post meta
-                        update_post_meta($post_id, $mark_field, $_POST[$mark_field]);
+        $marker = (int)$_POST['mark_posts_term_id'];
 
-                        // update terms
-                        $term = get_term($_POST[$mark_field], 'marker');
-                        wp_set_object_terms($post_id, $term->name, 'marker');
+        if (empty($marker)) {
+            return;
+        }
 
-                        // Clear transient dashboard stats
-                        delete_transient('marker_posts_stats');
-                    }
-                }
-            }
+        // update for each post ID
+        foreach ($post_ids as $post_id) {
+            // update post meta
+            update_post_meta($post_id, $mark_field, $marker);
+
+            // update terms
+            $term = get_term($marker, 'marker');
+            wp_set_object_terms($post_id, $term->name ?? null, 'marker');
+
+            // Clear transient dashboard stats
+            delete_transient('marker_posts_stats');
         }
     }
 
