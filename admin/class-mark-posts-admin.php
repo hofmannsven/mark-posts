@@ -361,23 +361,19 @@ class Mark_Posts_Admin
     /**
      * Update taxonomy count if posts get permanently deleted.
      *
-     * @since    1.0.7
+     * @param int $post_id ID of the post e.g. '1'
      *
-     * @param $post_id ID of the post e.g. '1'
+     * @since 1.0.7
+     *
      */
-    public function mark_posts_delete($post_id)
+    public function mark_posts_delete(int $post_id)
     {
         // Retrieve post meta value from the database
-        if (isset($post_id)) {
-            $term = get_post_meta($post_id, 'mark_posts_term_id', true);
-            if (!empty($term)) {
-                wp_set_object_terms($post_id, $term, 'marker');
-            } else {
-                wp_set_object_terms($post_id, null, 'marker'); // clear/remove all marker from post with $post_id
-            }
-            // Clear transient dashboard stats
-            delete_transient('marker_posts_stats');
-        }
+        $term = get_post_meta($post_id, 'mark_posts_term_id', true);
+        // if term is empty, all markers will be unset
+        wp_set_object_terms($post_id, $term, 'marker');
+        // Clear transient dashboard stats
+        delete_transient('marker_posts_stats');
     }
 
     /**
