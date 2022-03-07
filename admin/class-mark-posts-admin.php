@@ -236,18 +236,22 @@ class Mark_Posts_Admin
     /**
      * Add settings action link to the plugins page.
      *
-     * @since    1.0.0
+     * @param array $links Associative array of plugin action links
      *
-     * @param $links
+     * @return array
+     * @since 1.0.0
      *
-     * @return array associative array of plugin action links
      */
-    public function mark_posts_add_action_links($links)
+    public function mark_posts_add_action_links(array $links): array
     {
         // add a 'Settings' link to the front of the actions list for this plugin
         return array_merge(
             [
-                'settings' => '<a href="'.admin_url('options-general.php?page='.$this->plugin_slug).'">'.__('Settings', $this->plugin_slug).'</a>',
+                'settings' => sprintf(
+                    '<a href="%s">%s</a>',
+                    esc_url(admin_url('options-general.php?page=' . $this->plugin_slug)),
+                    esc_html__('Settings', 'mark-posts')
+                ),
             ],
             $links
         );
