@@ -313,54 +313,46 @@ class Mark_Posts_Admin
     /**
      * Save the meta when the post is saved.
      *
-     * @since    1.0.0
+     * @param int $post_id ID of the post e.g. '1'
      *
-     * @param $post_id ID of the post e.g. '1'
+     * @return void
+     * @since 1.0.0
      *
-     * @return mixed
      */
-    public function mark_posts_save($post_id)
+    public function mark_posts_save(int $post_id)
     {
         // Check if our nonce is set.
         if (!isset($_POST['mark_posts_inner_meta_box_nonce'])) {
-            return $post_id;
+            return;
         }
 
-        $nonce = $_POST['mark_posts_inner_meta_box_nonce'];
-
         // Verify that the nonce is valid.
-        if (!wp_verify_nonce($nonce, 'mark_posts_inner_meta_box')) {
-            return $post_id;
+        if (!wp_verify_nonce($_POST['mark_posts_inner_meta_box_nonce'], 'mark_posts_inner_meta_box')) {
+            return;
         }
 
         // If this is an autosave, our form has not been submitted,
         // so we don't want to do anything.
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return $post_id;
+            return;
         }
 
         // Check the user's permissions.
-        if ('page' == $_POST['post_type']) {
-            if (!current_user_can('edit_page', $post_id)) {
-                return $post_id;
-            }
-        } else {
-            if (!current_user_can('edit_post', $post_id)) {
-                return $post_id;
-            }
+        $type = sanitize_text_field($_POST['post_type']) === 'page' ? 'page' : 'post';
+        if (!current_user_can('edit_' .$type , $post_id)) {
+            return;
         }
 
         /* OK, its safe for us to mark_posts_save the data now. */
 
         // Sanitize the user input.
-        $mydata = sanitize_text_field($_POST['mark_posts_term_id']);
-        $myterm = get_term($mydata, 'marker');
-
+        $mydata = (int)$_POST['mark_posts_term_id'];
+        
         // Update the meta field.
         update_post_meta($post_id, 'mark_posts_term_id', $mydata);
 
         // Update taxonomy count
-        @wp_update_term_count_now($mydata, 'marker');
+        wp_update_term_count_now([$mydata], 'marker');
 
         // Clear transient dashboard stats
         delete_transient('marker_posts_stats');
