@@ -84,7 +84,7 @@ class Mark_Posts_Admin
         // Save action for bulk edit
         add_action('wp_ajax_mark_posts_save_bulk_edit', [$this, 'mark_posts_save_bulk_edit']);
         // Trash action
-        add_action('trash_post', [$this, 'mark_posts_trash'], 1, 1);
+        add_action('trash_post', [$this, 'mark_posts_trash'], 1);
         // Delete action
         add_action('delete_post', [$this, 'mark_posts_delete'], 10);
 
@@ -379,11 +379,9 @@ class Mark_Posts_Admin
     /**
      * Update dashboard stats if posts get trashed.
      *
-     * @since    1.0.7
-     *
-     * @param $post_id ID of the post e.g. '1'
+     * @since 1.0.7
      */
-    public function mark_posts_trash($post_id)
+    public function mark_posts_trash()
     {
         // Clear transient dashboard stats
         delete_transient('marker_posts_stats');
