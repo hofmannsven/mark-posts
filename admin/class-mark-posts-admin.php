@@ -182,12 +182,11 @@ class Mark_Posts_Admin
     /**
      * Register custom dashboard widget.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_dashboard_widget()
     {
-        global $wp_meta_boxes;
-        $this->plugin_screen_hook_suffix = wp_add_dashboard_widget(
+        wp_add_dashboard_widget(
             'mark_posts_info_widget',
             'Mark Posts',
             [$this, 'mark_posts_dashboard_info']
@@ -219,21 +218,19 @@ class Mark_Posts_Admin
     /**
      * Build custom dashboard styles.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_custom_dashboard_styles()
     {
-        $marker_args = [
-            'hide_empty' => true,
-        ];
-        $markers = get_terms('marker', $marker_args);
-        echo '<style>';
-
-        foreach ($markers as $marker) {
-            echo '.mark-posts-'.$marker->slug.' a:before { color: '.$marker->description.'} ';
-        }
-
-        echo '</style>';
+        printf('<style>%s</style>', implode(' ', array_map(static function (WP_Term $marker) {
+            return sprintf(
+                '.mark-posts-%s a:before{color:%s}',
+                esc_attr($marker->slug),
+                esc_attr($marker->description)
+            );
+        }, get_terms([
+            'taxonomy' => 'marker',
+        ]))));
     }
 
     /**
