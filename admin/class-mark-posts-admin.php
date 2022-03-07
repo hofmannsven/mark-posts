@@ -70,8 +70,8 @@ class Mark_Posts_Admin
         add_filter('plugin_action_links_'.$plugin_basename, [$this, 'mark_posts_add_action_links']);
 
         // Add quick edit and bulk edit actions
-        add_action('bulk_edit_custom_box', [$this, 'mark_posts_display_quickedit_box'], 10, 2);
-        add_action('quick_edit_custom_box', [$this, 'mark_posts_display_quickedit_box'], 10, 2);
+        add_action('bulk_edit_custom_box', [$this, 'mark_posts_display_quickedit_box']);
+        add_action('quick_edit_custom_box', [$this, 'mark_posts_display_quickedit_box']);
         // Add JavaScript for quick edit and bulk edit actions
         add_action('admin_print_scripts-edit.php', [$this, 'mark_posts_edit_scripts'], 10, 2);
 
@@ -390,34 +390,28 @@ class Mark_Posts_Admin
     /**
      * Custom quick edit box.
      *
-     * @since    1.0.0
+     * @param string $column_name Custom column name e.g. 'mark_posts_term_id'
      *
-     * @param $column_name Custom column name e.g. 'mark_posts_term_id'
+     * @since 1.0.0
+     *
      */
-    public function mark_posts_display_quickedit_box($column_name)
+    public function mark_posts_display_quickedit_box(string $column_name)
     {
-        switch ($column_name) {
-            case 'mark_posts_term_id':
-                ?>
-				<fieldset class="inline-edit-col-right mark-posts-quickedit">
-					<div class="inline-edit-col">
-						<div class="inline-edit-group">
-							<label class="inline-edit-status alignleft">
-								<span class="title"><?php _e('Marker', 'mark-posts'); ?></span>
-								<?php
-
-                                // Get available markers as select dropdown
-                                $markers = new Mark_Posts_Marker();
-                                echo $markers->mark_posts_select();
-
-                                ?>
-							</label>
-						</div>
-					</div>
-				</fieldset>
-				<?php
-                break;
+        if ($column_name !== 'mark_posts_term_id') {
+            return;
         }
+        ?>
+        <fieldset class="inline-edit-col-right mark-posts-quickedit">
+            <div class="inline-edit-col">
+                <div class="inline-edit-group">
+                    <label class="inline-edit-status alignleft">
+                        <span class="title"><?php esc_html_e('Marker', 'mark-posts'); ?></span>
+                        <?= (new Mark_Posts_Marker())->mark_posts_select() ?>
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+        <?php
     }
 
     /**
