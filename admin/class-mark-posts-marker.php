@@ -16,54 +16,55 @@ class Mark_Posts_Marker
     /**
      * Build select dropdown with all available markers for the current user.
      *
-     * @since 1.0.4
-     *
-     * @param $post_id
+     * @param int $post_id The current post id, empty if not in single post context
      *
      * @return string select with available markers as option
+     *@since 1.0.4
+     *
      */
-    public function mark_posts_select($post_id = null)
+    public function mark_posts_select(int $post_id = 0)
     {
-
+        $value = 0;
         // Retrieve post meta value from the database
-        if (isset($post_id)) {
+        if ($post_id !== 0) {
             $value = get_post_meta($post_id, 'mark_posts_term_id', true);
         }
 
         // Get marker terms
-        $markers_terms = get_terms('marker', 'hide_empty=0');
+        $markers_terms = get_terms([
+            'taxonomy'   => 'marker',
+            'hide_empty' => false,
+        ]);
 
         /**
          * Filter: 'mark_posts_marker_limit' - Allow custom user capabilities for marker terms.
          *
-         * @since    1.0.4
-         *
          * @param array $limited Array with marker term names and appropriate user capability
+         *
+         * @since 1.0.4
+         *
          */
-        $limited = [];
-        $limited = apply_filters('mark_posts_marker_limit', $limited);
+        $limited = apply_filters('mark_posts_marker_limit', []);
+        $limited = is_array($limited) ?: [];
 
         // Build select
         $select = '<select id="mark_posts_term_id" name="mark_posts_term_id">';
         $select .= '<option value="">---</option>';
 
         foreach ($markers_terms as $marker_term) {
-
             // Always display current marker
-            if (isset($value) && $marker_term->term_id == $value) {
-                $select .= '<option value="'.$marker_term->term_id.'" data-color="'.$marker_term->description.'" selected="selected">'.$marker_term->name.'</option>';
-            } else {
-                // Check if there is a custom limit
-                if (isset($limited[$marker_term->name])) {
-                    // Display markers depending on user capability
-                    if (current_user_can($limited[$marker_term->name])) {
-                        $select .= '<option value="'.$marker_term->term_id.'" data-color="'.$marker_term->description.'">'.$marker_term->name.'</option>';
-                    }
-                    // Display markers if there is no custom limit defined
-                } else {
-                    $select .= '<option value="'.$marker_term->term_id.'" data-color="'.$marker_term->description.'">'.$marker_term->name.'</option>';
-                }
+            // Otherwise, check if there is a custom limit and continue if current user is missing the capability
+            if ($marker_term->term_id !== $value && isset($limited[$marker_term->name]) && !current_user_can($limited[$marker_term->name])) {
+                continue;
             }
+
+            $select .= sprintf(
+                '<option value="%d" data-color="%s"%s>%s</option>',
+                $marker_term->term_id,
+                $marker_term->description,
+                selected($marker_term->term_id, $value, false),
+                $marker_term->name
+            );
         }
         $select .= '</select>';
 
