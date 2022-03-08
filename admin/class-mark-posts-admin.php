@@ -260,23 +260,20 @@ class Mark_Posts_Admin
     /**
      * Adds a box to the main column on the edit screens.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_add_meta_box()
     {
-        $get_mark_posts_setup = get_option('mark_posts_settings');
-        $mark_posts_posttypes = $get_mark_posts_setup['mark_posts_posttypes'];
+        $mark_posts_posttypes = (get_option('mark_posts_settings')['mark_posts_posttypes'] ?? false) ?: [];
 
-        if (!empty($mark_posts_posttypes)) {
-            foreach ($mark_posts_posttypes as $mark_posts_posttype) {
-                add_meta_box(
-                    'mark_posts_options',
-                    __('Mark Posts Options', 'mark-posts'),
-                    [$this, 'mark_posts_inner_meta_box'],
-                    $mark_posts_posttype,
-                    'side'
-                );
-            }
+        foreach ($mark_posts_posttypes as $mark_posts_posttype) {
+            add_meta_box(
+                'mark_posts_options',
+                __('Mark Posts Options', 'mark-posts'),
+                [$this, 'mark_posts_inner_meta_box'],
+                $mark_posts_posttype,
+                'side'
+            );
         }
     }
 
