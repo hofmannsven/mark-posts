@@ -47,7 +47,10 @@ function mark_posts_get_marker_terms()
 function mark_posts_misc_functions()
 {
     // mark all posts
-    if (!isset($_GET['mark-all-posts-term-id'])) {
+    if (
+        !isset($_GET['mark-all-posts-term-id'], $_GET['_wpnonce'])
+        || !wp_verify_nonce($_GET['_wpnonce'], 'mark-posts-initial')
+    ) {
         return;
     }
     $term_id = (int)$_GET['mark-all-posts-term-id'];
@@ -70,6 +73,14 @@ function mark_posts_misc_functions()
         }
     }
 
+    // remove the URL parameters after setting the marker.
+    ?>
+    <script>
+        (() => {
+            window.history.replaceState({}, '', '<?= admin_url('options-general.php?page=mark-posts') ?>');
+        })();
+    </script>
+    <?php
     echo mark_posts_display_settings_updated();
 }
 
@@ -230,7 +241,7 @@ function mark_posts_get_all_types()
 /**
  * Get dashboard widget setup.
  *
- * @since     1.0.8
+ * @since 1.0.8
  */
 function mark_posts_dashboard()
 {
@@ -245,7 +256,7 @@ function mark_posts_dashboard()
 /**
  * Display all settings.
  *
- * @since     1.0.0
+ * @since 1.0.0
  */
 function mark_posts_show_settings()
 {

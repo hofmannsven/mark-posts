@@ -67,16 +67,11 @@
 		});
 	}
 
-	$('a.mark-posts-initial').click(function() {
-		var confirm_msg = $(this).data('confirm-msg');
-		if (confirm(confirm_msg)) {
-			var term_id = $(this).data('term-id');
-			window.location = 'options-general.php?page=mark-posts&mark-all-posts-term-id=' + term_id;
-		}
-		else {
-			return false;
-		}
-		return false;
-	});
-
+    $('a.mark-posts-initial').click(function () {
+        if (confirm($(this).data('confirm-msg'))) {
+            var term_id = $(this).data('term-id');
+            window.location = 'options-general.php?page=mark-posts&mark-all-posts-term-id=' + term_id + '&_wpnonce=' + window.mark_posts.nonce;
+        }
+        return false;
+    });
 }(jQuery));

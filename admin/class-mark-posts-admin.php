@@ -149,6 +149,9 @@ class Mark_Posts_Admin
         if ($pagenow === 'options-general.php' || $pagenow === 'edit.php' || $pagenow === 'post.php') {
             wp_enqueue_style('wp-color-picker'); // see http://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
             wp_enqueue_script($this->plugin_slug . '-post-list-marker', plugins_url('assets/js/markposts.js', __FILE__), ['wp-color-picker'], WP_MARK_POSTS_VERSION, true);
+            wp_localize_script($this->plugin_slug . '-post-list-marker', 'mark_posts', [
+                'nonce' => wp_create_nonce('mark-posts-initial'),
+            ]);
         }
     }
 
@@ -344,7 +347,7 @@ class Mark_Posts_Admin
 
         // Check the user's permissions.
         $type = sanitize_text_field($_POST['post_type']) === 'page' ? 'page' : 'post';
-        if (!current_user_can('edit_' .$type , $post_id)) {
+        if (!current_user_can('edit_' . $type, $post_id)) {
             return;
         }
 
@@ -352,7 +355,7 @@ class Mark_Posts_Admin
 
         // Sanitize the user input.
         $mydata = (int)$_POST['mark_posts_term_id'];
-        
+
         // Update the meta field.
         update_post_meta($post_id, 'mark_posts_term_id', $mydata);
 
@@ -423,7 +426,7 @@ class Mark_Posts_Admin
      * Save quick edit.
      *
      * @param int $post_id ID of the post e.g. '1'
-     * @param WP_Post $post    Information about the post e.g. 'post_type'
+     * @param WP_Post $post Information about the post e.g. 'post_type'
      *
      * @return void
      * @since 1.0.0
@@ -437,7 +440,7 @@ class Mark_Posts_Admin
         }
 
         // verify quick edit nonce
-        if (! isset($_POST['_inline_edit']) ||  !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce')) {
+        if (!isset($_POST['_inline_edit']) || !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce')) {
             return;
         }
 
@@ -517,7 +520,7 @@ class Mark_Posts_Admin
      */
     public function mark_posts_edit_scripts()
     {
-        wp_enqueue_script($this->plugin_slug.'-quick-bulk-edit', plugins_url('assets/js/admin-edit.js', __FILE__), ['jquery', 'inline-edit-post'], WP_MARK_POSTS_VERSION, true);
+        wp_enqueue_script($this->plugin_slug . '-quick-bulk-edit', plugins_url('assets/js/admin-edit.js', __FILE__), ['jquery', 'inline-edit-post'], WP_MARK_POSTS_VERSION, true);
     }
 
     /**
