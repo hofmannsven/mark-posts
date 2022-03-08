@@ -17,25 +17,25 @@ if (!defined('WPINC')) {
 /**
  * Declare default colors.
  *
- * @since     1.0.1
+ * @since 1.0.1
  */
 function mark_posts_get_default_colors()
 {
-    $default_colors = ['#96D754', '#FFFA74', '#FF7150', '#9ABADC', '#FFA74C', '#158A61'];
-
-    return $default_colors;
+    return ['#96D754', '#FFFA74', '#FF7150', '#9ABADC', '#FFA74C', '#158A61'];
 }
 
 /**
  * Get marker terms.
  *
- * @since     1.0.1
+ * @since 1.0.1
  */
 function mark_posts_get_marker_terms()
 {
-    $marker_terms = get_terms('marker', 'orderby=id&hide_empty=0');
-
-    return $marker_terms;
+    return get_terms([
+        'taxonomy'   => 'marker',
+        'orderby'    => 'id',
+        'hide_empty' => false,
+    ]);
 }
 
 /**
@@ -46,35 +46,31 @@ function mark_posts_get_marker_terms()
  */
 function mark_posts_misc_functions()
 {
-
     // mark all posts
-    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['mark-all-posts-term-id'])) {
-        $term_id = $_GET['mark-all-posts-term-id']; /* TODO:: SECURITY */
-
-        // set color only for selected post types
-        $get_mark_posts_settings = get_option('mark_posts_settings');
-        foreach ($get_mark_posts_settings['mark_posts_posttypes'] as $post_type) {
-            $args = [
-                'posts_per_page' => -1,
-                'post_type'      => $post_type, ];
-
-            // get all posts
-            $all_posts = get_posts($args);
-
-            foreach ($all_posts as $post) {
-                // Sanitize the user input.
-                $mydata = sanitize_text_field($term_id);
-                $myterm = get_term($term_id, 'marker');
-
-                // Update the meta field.
-                update_post_meta($post->ID, 'mark_posts_term_id', $mydata);
-                // Update taxonomy count
-                wp_set_object_terms($post->ID, $myterm->name, 'marker');
-            }
-        }
-
-        echo mark_posts_display_settings_updated();
+    if (!isset($_GET['mark-all-posts-term-id'])) {
+        return;
     }
+    $term_id = (int)$_GET['mark-all-posts-term-id'];
+
+    // set color only for selected post types
+    foreach (get_option('mark_posts_settings')['mark_posts_posttypes'] as $post_type) {
+        // get all posts
+        $all_posts = new WP_Query([
+            'posts_per_page' => -1,
+            'post_type'      => $post_type,
+        ]);
+
+        foreach ($all_posts->posts as $post) {
+            // Get the term.
+            $myterm = get_term($term_id, 'marker');
+            // Update the meta field.
+            update_post_meta($post->ID, 'mark_posts_term_id', $term_id);
+            // Update taxonomy count.
+            wp_set_object_terms($post->ID, $myterm->name, 'marker');
+        }
+    }
+
+    echo mark_posts_display_settings_updated();
 }
 
 /**
@@ -84,112 +80,91 @@ function mark_posts_misc_functions()
  */
 function mark_posts_validate_form()
 {
+    if (!isset($_POST['submit'], $_POST['_wpnonce'])) {
+        return;
+    }
 
+    if (!wp_verify_nonce($_POST['_wpnonce'], 'mark_posts_save_settings')) {
+        return;
+    }
+
+    // get options from db
+    $get_mark_posts_settings = get_option('mark_posts_settings');
+
+    // update post type settings
+    $get_mark_posts_settings['mark_posts_posttypes'] = array_map('sanitize_text_field', $_POST['markertypes'] ?? []);
+
+
+    // update dashboard settings
+    $get_mark_posts_settings['mark_posts_dashboard'] = array_map('sanitize_text_field', $_POST['markerdashboard'] ?? []);
+
+    // save options
+    update_option('mark_posts_settings', $get_mark_posts_settings);
+
+    // news markers
+    $markers = array_map(static function (string $marker) {
+        return trim(sanitize_text_field($marker));
+    }, explode(',', $_POST['markers'] ?? ''));
+    $i       = count(mark_posts_get_marker_terms()) ?: 0;
     // get default colors
     $default_colors = mark_posts_get_default_colors();
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-
-        // get marker posttypes
-        if (isset($_POST['markertypes'])) {
-            $markertypes = $_POST['markertypes'];
-        } else {
-            $markertypes = [];
-        }
-
-        // update post type settings
-        $get_mark_posts_settings = get_option('mark_posts_settings');
-        $set_mark_posts_settings = $markertypes;
-        $get_mark_posts_settings['mark_posts_posttypes'] = $set_mark_posts_settings;
-
-        update_option('mark_posts_settings', $get_mark_posts_settings);
-
-        // get marker dashboard
-        if (isset($_POST['markerdashboard'])) {
-            $markerdashboard = $_POST['markerdashboard'];
-        } else {
-            $markerdashboard = [];
-        }
-
-        // update dashboard settings
-        $get_mark_posts_settings = get_option('mark_posts_settings');
-        $set_mark_posts_settings = $markerdashboard;
-        $get_mark_posts_settings['mark_posts_dashboard'] = $set_mark_posts_settings;
-
-        update_option('mark_posts_settings', $get_mark_posts_settings);
-
-        // news markers
-        $markers = explode(',', $_POST['markers']);
-        $count_markers = count(mark_posts_get_marker_terms());
-        if ($count_markers) {
-            $i = $count_markers;
-        } // define $i for default color
-        else {
+    foreach ($markers as $marker) {
+        $color = $default_colors[$i]; // define default color
+        wp_insert_term($marker, 'marker', [
+            'name'        => $marker,
+            'slug'        => sanitize_title($marker),
+            'description' => $color,
+        ]);
+        if (++$i > 5) {
             $i = 0;
         }
-        foreach ($markers as $marker) {
-            $marker = trim(sanitize_text_field($marker));
-            $color = $default_colors[$i]; // define default color
-            wp_insert_term($marker, 'marker', [
-                'name'        => $marker,
-                'slug'        => sanitize_title($marker),
-                'description' => $color,
-            ]);
-            if ($i > 5) {
-                $i = 0;
-            } // reset $i to color count so the next color is first color again etc.
-            else {
-                $i++;
-            }
-        }
-
-        // update markers
-        $i = 0;
-        if (isset($_POST['markernames'])) {
-            foreach ($_POST['markernames'] as $markername) {
-                $marker = trim(sanitize_text_field($markername));
-                wp_update_term($_POST['term_ids'][$i], 'marker', [
-                    'name'        => $marker,
-                    'slug'        => sanitize_title($marker),
-                    'description' => $_POST['colors'][$i],
-                ]);
-                $i++;
-            }
-        }
-
-        // delete markers
-        if (isset($_POST['delete'])) {
-            foreach ($_POST['delete'] as $term_id) {
-                wp_delete_term($term_id, 'marker');
-            }
-        }
-
-        echo mark_posts_display_settings_updated();
-
-        // Clear transient dashboard stats
-        delete_transient('marker_posts_stats');
     }
+
+    // update markers
+    $term_ids = array_map('intval', $_POST['term_ids'] ?? []);
+    $colors   = array_map('sanitize_text_field', $_POST['colors'] ?? []);
+    $markers  = array_map(static function (string $marker) {
+        return trim(sanitize_text_field($marker));
+    }, $_POST['markernames'] ?? []);
+    foreach ($markers as $index => $marker) {
+        wp_update_term($term_ids[$index], 'marker', [
+            'name'        => $marker,
+            'slug'        => sanitize_title($marker),
+            'description' => $colors[$index],
+        ]);
+    }
+
+    // delete markers
+    foreach (array_map('intval', $_POST['delete'] ?? []) as $term_id) {
+        wp_delete_term($term_id, 'marker');
+    }
+
+    echo mark_posts_display_settings_updated();
+
+    // Clear transient dashboard stats
+    delete_transient('marker_posts_stats');
 }
 
 /**
  * Show update notice.
  *
- * @since     1.0.0
+ * @since 1.0.0
  */
-function mark_posts_display_settings_updated()
+function mark_posts_display_settings_updated(): string
 {
-    return '<div id="message" class="updated"><p>'.__('Settings saved', 'mark-posts').'</p></div>';
+    return '<div id="message" class="updated"><p>' . esc_html__('Settings saved', 'mark-posts') . '</p></div>';
 }
 
 /**
  * List of excluded post types.
  *
- * @since     1.2.1
- * @docs      https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types
- *
  * @return array
+ * @since 1.2.1
+ * @docs https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types
+ *
  */
-function mark_posts_excluded_post_types()
+function mark_posts_excluded_post_types(): array
 {
     return apply_filters('mark_posts_excluded_post_types', [
         'attachment',
@@ -214,39 +189,40 @@ function mark_posts_excluded_post_types()
 /**
  * Get the readable name of the custom post type.
  *
- * @since 1.2.3
- *
  * @param string $key
  *
  * @return string
+ * @since 1.2.3
+ *
  */
-function mark_posts_get_post_type_name(string $key)
+function mark_posts_get_post_type_name(string $key): string
 {
     $cpt = get_post_type_object($key);
 
-    return is_object($cpt) ? $cpt->labels->name : ucfirst($key);
+    return $cpt instanceof \WP_Post_Type ? $cpt->labels->name : ucfirst($key);
 }
 
 /**
  * Get all available post types.
  *
- * @since     1.0.0
+ * @since 1.0.0
  */
 function mark_posts_get_all_types()
 {
-    $all_post_types = get_post_types();
-    $option = get_option('mark_posts_settings');
+    $all_post_types      = get_post_types();
+    $option              = get_option('mark_posts_settings');
+    $excluded_post_types = mark_posts_excluded_post_types();
 
     foreach ($all_post_types as $one_post_type) {
         // Filter excluded post types.
-        if (!in_array($one_post_type, mark_posts_excluded_post_types())) {
-            echo '<p><input name="markertypes[]" type="checkbox" value="'.esc_attr($one_post_type).'"';
+        if (!in_array($one_post_type, $excluded_post_types, true)) {
+            echo '<p><input name="markertypes[]" type="checkbox" value="' . esc_attr($one_post_type) . '"';
             if (isset($option['mark_posts_posttypes'])) {
-                if (in_array($one_post_type, $option['mark_posts_posttypes'])) {
+                if (in_array($one_post_type, $option['mark_posts_posttypes'], true)) {
                     echo ' checked="checked"';
                 }
             }
-            echo ' /> '.esc_html(mark_posts_get_post_type_name($one_post_type)).'</p>';
+            echo ' /> ' . esc_html(mark_posts_get_post_type_name($one_post_type)) . '</p>';
         }
     }
 }
@@ -263,7 +239,7 @@ function mark_posts_dashboard()
     if (!empty($option['mark_posts_dashboard'])) {
         echo ' checked="checked"';
     }
-    echo ' /> '.__('Dashboard Widget', 'mark-posts').'</p>';
+    echo ' /> ' . __('Dashboard Widget', 'mark-posts') . '</p>';
 }
 
 /**
@@ -273,108 +249,116 @@ function mark_posts_dashboard()
  */
 function mark_posts_show_settings()
 {
-
-    // get default colors
+// get default colors
     $default_colors = mark_posts_get_default_colors(); ?>
-	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-		<?php
+    <form method="post" action="">
+        <?php
+
+        wp_nonce_field('mark_posts_save_settings');
 
         // Get Marker terms from DB
         $markers_terms = mark_posts_get_marker_terms();
-    $markers_registered = '';
-    foreach ($markers_terms as $marker_term) {
-        $markers_registered .= $marker_term->name;
-        $markers_registered .= ', ';
-    }
-    $markers_registered = rtrim($markers_registered, ', '); // cut trailing comma and space
 
-    if (!empty($markers_terms)) {
-        echo '<h3 class="title">'.__('Markers', 'mark-posts').'</h3>';
+        if (!empty($markers_terms)) :
+            ?>
+            <h3 class="title"><?= esc_html__('Markers', 'mark-posts') ?></h3>
+            <table class="form-table">
+                <tbody>
+                <?php
+                $i = 0;
+                foreach ($markers_terms as $marker_term) :
+                    $color = $marker_term->description;
+                    if ($color === '') {
+                        if (!isset($default_colors[$i++])) {
+                            $i = 0; // reset pointer to 0 start over
+                        }
+                        $color = $default_colors[$i];
+                    }
+                    ?>
+                    <tr valign="top">
+                        <td scope="row">
+                            <input type="text" name="markernames[]" value="<?= esc_html($marker_term->name) ?>">
+                        </td>
+                        <td width="130">
+                            <input type="text" name="colors[]" value="<?= esc_attr($color) ?>" class="my-color-field" data-default-color="<?= esc_attr($color) ?>"/>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="delete[]" id="delete_<?= (int)$marker_term->term_id ?>" value="<?= (int)$marker_term->term_id ?>">
+                            <label for="delete_<?= (int)$marker_term->term_id ?>">
+                                <?= esc_html__('delete', 'mark-posts') ?>
+                            </label>
+                            <a href="javascript:void(0);" class="mark-posts-initial" data-confirm-msg="<?= esc_attr__('Do you really want to mark all posts with this marker? Note: This will override all your previous set markers. This will only effect the enabled post types.', 'mark-posts') ?>" data-term-id="<?= (int)$marker_term->term_id ?>">
+                                <?= esc_html__('Mark all posts with this marker', 'mark-posts') ?>
+                            </a>
+                        </td>
+                        <input type="hidden" name="term_ids[]" value="<?= (int)$marker_term->term_id ?>"/>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
 
-        echo '<table class="form-table"><tbody>';
+            <?php submit_button(); ?>
 
-        $i = 0;
-        foreach ($markers_terms as $marker_term) {
-            if ($marker_term->description != '') {
-                $color = $marker_term->description;
-            } else {
-                if (isset($default_colors[$i])) {
-                    $color = $default_colors[$i];
-                } else {
-                    $i = 0; // reset pointer to 0 start over
-                    $color = $default_colors[$i];
-                }
-            }
+            <hr/>
+        <?php endif; ?>
 
-            echo '<tr valign="top"><th scope="row"><input type="text" name="markernames[]" value="'.esc_html($marker_term->name).'"></th>';
-            echo '<td width="130"><input type="text" name="colors[]" value="'.esc_attr($color).'" class="my-color-field" data-default-color="'.esc_attr($color).'"/></td>';
-            echo '<td><input type="checkbox" name="delete[]" id="delete_'.(int)$marker_term->term_id.'" value="'.(int)$marker_term->term_id.'"> <label for="delete_'.(int)$marker_term->term_id.'">'.__('delete', 'mark-posts').'?</label>';
-            echo '<a href="javascript:void(0);" class="mark-posts-initial" data-confirm-msg="'.__('Do you really want to mark all posts with this marker? Note: This will override all your previous set markers. This will only effect the enabled post types.', 'mark-posts').'" data-term-id="'.(int)$marker_term->term_id.'">'.__('Mark all posts with this marker', 'mark-posts').'</a></td>';
-            echo '<input type="hidden" name="term_ids[]" value="'.(int)$marker_term->term_id.'"/>';
-            $i++;
-        }
+        <h3 class="title"><?= esc_html__('Add new Markers', 'mark-posts') ?></h3>
 
-        echo '</tbody></table>';
+        <p>
+            <?= esc_html__('Add new marker (please separate them by comma):', 'mark-posts') ?>
+        </p>
 
-        submit_button();
+        <textarea class="js-add-markers" name="markers" style="width:60%;height:120px;"></textarea>
 
-        echo '<hr />';
-    } ?>
+        <div class="new-markers">
+            <span class="js-new-markers-intro"><?php _e('Markers to add:', 'mark-posts'); ?></span>
+            <span class="js-new-markers"></span>
+        </div>
 
+        <?php submit_button(); ?>
 
-		<h3 class="title"><?php _e('Add new Markers', 'mark-posts'); ?></h3>
+        <hr/>
+        <h3 class="title"><?php _e('Enable/Disable Markers', 'mark-posts'); ?></h3>
 
-		<p>
-			<?php _e('Add new marker (please separate them by comma):', 'mark-posts'); ?>
-		</p>
+        <p>
+            <?= esc_html__('Enable/Disable markers for specific post types:', 'mark-posts') ?>
+        </p>
 
-		<textarea class="js-add-markers" name="markers" style="width:60%;height:120px;"></textarea>
-
-		<div class="new-markers">
-			<span class="js-new-markers-intro"><?php _e('Markers to add:', 'mark-posts'); ?></span>
-			<span class="js-new-markers"></span>
-		</div>
-
-		<?php submit_button(); ?>
-
-		<hr />
-		<h3 class="title"><?php _e('Enable/Disable Markers', 'mark-posts'); ?></h3>
-
-		<p>
-			<?php _e('Enable/Disable markers for specific post types:', 'mark-posts'); ?>
-		</p>
-
-		<?php
+        <?php
         mark_posts_get_all_types();
-    submit_button(); ?>
+        submit_button();
+        ?>
 
-		<hr />
-		<h3 class="title"><?php _e('Enable/Disable Dashboard Widget', 'mark-posts'); ?></h3>
+        <hr/>
+        <h3 class="title"><?= esc_html__('Enable/Disable Dashboard Widget', 'mark-posts') ?></h3>
 
-		<?php
+        <?php
         mark_posts_dashboard();
-    submit_button(); ?>
+        submit_button();
+        ?>
 
-	</form>
+    </form>
 
-<?php
-} ?>
+    <?php
+}
+
+?>
 
 <div class="wrap">
 
-	<?php mark_posts_misc_functions() ?>
+    <?php mark_posts_misc_functions() ?>
 
-	<?php mark_posts_validate_form(); ?>
+    <?php mark_posts_validate_form(); ?>
 
-	<h2><?php _e('Mark Posts Options', 'mark-posts'); ?></h2>
+    <h2><?php _e('Mark Posts Options', 'mark-posts'); ?></h2>
 
-	<?php mark_posts_show_settings(); ?>
+    <?php mark_posts_show_settings(); ?>
 
-	<div class="mark-posts-copy">
-		<hr />
-		Mark Posts | Version: <?php echo WP_MARK_POSTS_VERSION; ?> | &copy; <?php echo date('Y'); ?>
-		<a href="http://www.aliquit.de" target="_blank">Michael Schoenrock</a>,
-		<a href="https://hofmannsven.com" target="_blank">Sven Hofmann</a>
-	</div>
+    <div class="mark-posts-copy">
+        <hr/>
+        Mark Posts | Version: <?php echo WP_MARK_POSTS_VERSION; ?> | &copy; <?php echo date('Y'); ?>
+        <a href="http://www.aliquit.de" target="_blank">Michael Schoenrock</a>,
+        <a href="https://hofmannsven.com" target="_blank">Sven Hofmann</a>
+    </div>
 
 </div>
