@@ -280,29 +280,39 @@ class Mark_Posts_Admin
     /**
      * Prints the box content.
      *
-     * @since    1.0.0
+     * @param WP_Post $post Current WP_Post object
      *
-     * @param $post Information about the post e.g. 'ID'
+     * @since 1.0.0
+     *
      */
-    public function mark_posts_inner_meta_box($post)
+    public function mark_posts_inner_meta_box(WP_Post $post)
     {
-
         // Add an nonce field so we can check for it later
         wp_nonce_field('mark_posts_inner_meta_box', 'mark_posts_inner_meta_box_nonce');
-
-        echo '<p>'.__('Mark this post as:', 'mark-posts').'</p>';
-
+        ?>
+        <p><?php esc_html_e('Mark this post as:', 'mark-posts') ?></p>
+        <?php
         // Get available markers as select dropdown
-        $markers = new Mark_Posts_Marker();
-        echo $markers->mark_posts_select($post->ID);
+        echo (new Mark_Posts_Marker())->mark_posts_select($post->ID);
+        ?>
 
-        echo '<span class="mark-posts-color"></span>';
-
-        echo '<p>'.sprintf(
-                /* translators: %s: plugin settings page */
-                __('Click <a href="%s">here</a> to manage Marker categories.', 'mark-posts'),
-            esc_url('options-general.php?page=mark-posts')
-        ).'</p>';
+        <span class="mark-posts-color"></span>
+        <p>
+            <?php
+            printf(
+            /* translators: %s: plugin settings page */
+                wp_kses(__('Click <a href="%s">here</a> to manage Marker categories.', 'mark-posts'), [
+                    'a' => [
+                        'href' => true,
+                        'rel'  => true,
+                        'name' => true,
+                    ],
+                ]),
+                esc_url('options-general.php?page=mark-posts')
+            )
+            ?>
+        </p>
+        <?php
     }
 
     /**
