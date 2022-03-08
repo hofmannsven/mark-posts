@@ -23,34 +23,30 @@ class Mark_Posts
     /**
      * Instance of this class.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      *
-     * @var object
+     * @var self
      */
-    protected static $instance = null;
+    protected static $instance;
+
     /**
      * Unique identifier for your plugin.
+     * It is used as a prefix for scripts and styles.
      *
-     *
-     * The variable name is used as the text domain when internationalizing strings
-     * of text. Its value should match the Text Domain file header in the main
-     * plugin file.
-     *
-     * @since    1.0.0
+     * @since 1.0.0
      *
      * @var string
      */
-    protected $plugin_slug = 'mark-posts';
+    const PLUGIN_SLUG = 'mark-posts';
 
     /**
      * Initialize the plugin by setting localization and loading public scripts
      * and styles.
      *
-     * @since     1.0.0
+     * @since  1.0.0
      */
     private function __construct()
     {
-
         // Create marker taxonomy
         add_action('init', [$this, 'mark_posts_create_taxonomies']);
 
@@ -64,15 +60,14 @@ class Mark_Posts
     /**
      * Return an instance of this class.
      *
-     * @since     1.0.0
-     *
      * @return object A single instance of this class.
+     * @since  1.0.0
+     *
      */
     public static function get_instance()
     {
-
         // If the single instance hasn't been set, set it now.
-        if (null == self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
 
@@ -82,30 +77,25 @@ class Mark_Posts
     /**
      * Fired when the plugin is activated.
      *
-     * @since    1.0.0
-     *
      * @param bool $network_wide True if WPMU superadmin uses
      *                           "Network Activate" action, false if
      *                           WPMU is disabled or plugin is
      *                           activated on an individual blog.
+     *
+     * @since 1.0.0
+     *
      */
-    public static function activate($network_wide)
+    public static function activate(bool $network_wide)
     {
-        if (function_exists('is_multisite') && is_multisite()) {
-            if ($network_wide) {
-
-                // Get all blog ids
-                $blog_ids = self::get_blog_ids();
-
-                foreach ($blog_ids as $blog_id) {
-                    switch_to_blog($blog_id);
-                    self::single_activate();
-                }
-
-                restore_current_blog();
-            } else {
+        /** @noinspection NotOptimalIfConditionsInspection */
+        if (is_multisite() && $network_wide) {
+            // Get all blog ids
+            foreach (self::get_blog_ids() as $blog_id) {
+                switch_to_blog($blog_id);
                 self::single_activate();
             }
+
+            restore_current_blog();
         } else {
             self::single_activate();
         }
@@ -117,9 +107,9 @@ class Mark_Posts
      * - not spam
      * - not deleted.
      *
-     * @since    1.0.0
+     * @return array Of blog ids.
+     * @since 1.0.0
      *
-     * @return array|false The blog ids, false if no matches.
      */
     private static function get_blog_ids()
     {
@@ -136,8 +126,8 @@ class Mark_Posts
     /**
      * Fired for each blog when the plugin is activated.
      *
-     * @since    1.0.0
-     * @updated  1.1.0
+     * @since 1.0.0
+     * @updated 1.1.0
      */
     private static function single_activate()
     {
@@ -153,30 +143,24 @@ class Mark_Posts
     /**
      * Fired when the plugin is deactivated.
      *
-     * @since    1.0.0
-     *
      * @param bool $network_wide True if WPMU superadmin uses
      *                           "Network Deactivate" action, false if
      *                           WPMU is disabled or plugin is
      *                           deactivated on an individual blog.
+     *
+     * @since 1.0.0
+     *
      */
-    public static function deactivate($network_wide)
+    public static function deactivate(bool $network_wide)
     {
-        if (function_exists('is_multisite') && is_multisite()) {
-            if ($network_wide) {
-
-                // Get all blog ids
-                $blog_ids = self::get_blog_ids();
-
-                foreach ($blog_ids as $blog_id) {
-                    switch_to_blog($blog_id);
-                    self::single_deactivate();
-                }
-
-                restore_current_blog();
-            } else {
+        if (is_multisite() && $network_wide) {
+            // Get all blog ids
+            foreach (self::get_blog_ids() as $blog_id) {
+                switch_to_blog($blog_id);
                 self::single_deactivate();
             }
+
+            restore_current_blog();
         } else {
             self::single_deactivate();
         }
@@ -185,7 +169,7 @@ class Mark_Posts
     /**
      * Fired for each blog when the plugin is deactivated.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     private static function single_deactivate()
     {
@@ -195,23 +179,24 @@ class Mark_Posts
     /**
      * Return the plugin slug.
      *
-     * @since    1.0.0
+     * @return string
+     * @since 1.0.0
      *
-     * @return Plugin slug variable.
      */
-    public function get_plugin_slug()
+    public function get_plugin_slug(): string
     {
-        return $this->plugin_slug;
+        return self::PLUGIN_SLUG;
     }
 
     /**
      * Fired when a new site is activated with a WPMU environment.
      *
-     * @since    1.0.0
-     *
      * @param int $blog_id ID of the new blog.
+     *
+     * @since 1.0.0
+     *
      */
-    public function mark_posts_activate_new_site($blog_id)
+    public function mark_posts_activate_new_site(int $blog_id)
     {
         if (1 !== did_action('wpmu_new_blog')) {
             return;
@@ -225,7 +210,7 @@ class Mark_Posts
     /**
      * Register settings.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_register_settings()
     {
@@ -240,14 +225,14 @@ class Mark_Posts
             $option_name,
             __('Mark Posts Options', 'plugin_mark_posts_settings'),
             '__return_false',
-            $this->plugin_slug // plugin slug
+            self::PLUGIN_SLUG
         );
     }
 
     /**
      * Validate settings.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_settings_validate($input)
     {
@@ -258,11 +243,10 @@ class Mark_Posts
     /**
      * Create marker taxonomy.
      *
-     * @since    1.0.0
+     * @since 1.0.0
      */
     public function mark_posts_create_taxonomies()
     {
-
         // Add new marker taxonomy
         $labels = [
             'name'              => __('Marker', 'mark-posts'),
@@ -292,9 +276,10 @@ class Mark_Posts
         /**
          * Filter: 'mark_posts_taxonomy_args' - Allow custom parameters for the marker taxonomy.
          *
-         * @since    2.0.0
-         *
          * @param array $args Array with taxonomy arguments.
+         *
+         * @since 2.0.0
+         *
          */
         $args = apply_filters('mark_posts_taxonomy_args', $args);
 
@@ -303,16 +288,17 @@ class Mark_Posts
          *
          * See the _update_post_term_count() function in WordPress or http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress for more info.
          *
-         * @since    1.0.7
-         *
-         * @param array  $terms    List of Term taxonomy IDs
+         * @param array $terms List of Term taxonomy IDs
          * @param object $taxonomy Current taxonomy object of terms
+         *
+         * @since 1.0.7
+         *
          */
         function marker_update_count_callback($terms, $taxonomy)
         {
             global $wpdb;
 
-            foreach ((array) $terms as $term) {
+            foreach ((array)$terms as $term) {
                 $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term));
 
                 do_action('edit_term_taxonomy', $term, $taxonomy);
