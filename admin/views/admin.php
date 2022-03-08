@@ -220,21 +220,22 @@ function mark_posts_get_post_type_name(string $key): string
  */
 function mark_posts_get_all_types()
 {
-    $all_post_types      = get_post_types();
-    $option              = get_option('mark_posts_settings');
+    $active_post_types   = get_option('mark_posts_settings')['mark_posts_posttypes'] ?? [];
     $excluded_post_types = mark_posts_excluded_post_types();
 
-    foreach ($all_post_types as $one_post_type) {
+    foreach (get_post_types() as $post_type) {
         // Filter excluded post types.
-        if (!in_array($one_post_type, $excluded_post_types, true)) {
-            echo '<p><input name="markertypes[]" type="checkbox" value="' . esc_attr($one_post_type) . '"';
-            if (isset($option['mark_posts_posttypes'])) {
-                if (in_array($one_post_type, $option['mark_posts_posttypes'], true)) {
-                    echo ' checked="checked"';
-                }
-            }
-            echo ' /> ' . esc_html(mark_posts_get_post_type_name($one_post_type)) . '</p>';
+        if (in_array($post_type, $excluded_post_types, true)) {
+            continue;
         }
+        ?>
+        <p>
+            <label>
+                <input name="markertypes[]" type="checkbox" value="<?= esc_attr($post_type) ?>" <?php checked(in_array($post_type, $active_post_types, true)) ?>>
+                <?= esc_html(mark_posts_get_post_type_name($post_type)) ?>
+            </label>
+        </p>
+        <?php
     }
 }
 
