@@ -2,6 +2,9 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.1.0
+* Adds support for PHP 8
+
 ## 2.0.1
 * Fixes a possible XSS vulnerability.
   Thanks @fuzzyap1 for discovering and responsibly disclosing this vulnerability.

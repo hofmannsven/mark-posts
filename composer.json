@@ -27,9 +27,14 @@
     "source": "https://github.com/hofmannsven/mark-posts"
   },
   "require": {
-    "php": "^7.0"
+    "php": "^7.0|^8.0"
   },
   "require-dev": {
-    "roots/wordpress": "^5.8"
+    "roots/wordpress": "^6.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "roots/wordpress-core-installer": true
+    }
   }
 }
