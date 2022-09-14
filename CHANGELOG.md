@@ -2,15 +2,22 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.2.0
+* Fixes a bug with PHP 8
+* Fixes wicked file permissions
+* Low-level refactoring by @alpipego
+* Sets the minimum required WordPress version to WordPress 4.1
+  Further reading: [Dropping security updates for WordPress versions 3.7 through 4.0](https://wordpress.org/news/2022/09/dropping-security-updates-for-wordpress-versions-3-7-through-4-0/)
+
 ## 2.1.0
 * Adds support for PHP 8
 
 ## 2.0.1
-* Fixes a possible XSS vulnerability.
-  Thanks @fuzzyap1 for discovering and responsibly disclosing this vulnerability.
+* Fixes a possible XSS vulnerability
+  Thanks @fuzzyap1 for discovering and responsibly disclosing this vulnerability
 
 ## 2.0.0
-* Breaking change: Markers are no longer public by default.
+* Breaking change: Markers are no longer public by default
 * Adds [`mark_posts_taxonomy_args`](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Taxonomy-Arguments) filter
 
 ## 1.2.4
@@ -27,8 +34,8 @@ Notable changes and release notes of the Mark Posts WordPress plugin.
 * Adds [`mark_posts_excluded_post_types`](https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types) filter
 
 ## 1.2.0
-* Migrates GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
-* Adds [composer support](https://packagist.org/packages/hofmannsven/mark-posts)
+* Migrates the GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
+* Adds [Composer support](https://packagist.org/packages/hofmannsven/mark-posts)
 
 ## 1.1.0
 * Adds `mark_posts_dashboard_query` filter for custom dashboard stats

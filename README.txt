@@ -1,10 +1,10 @@
 === Mark Posts ===
-Contributors: flymke, hofmannsven
+Contributors: hofmannsven, flymke
 Tags: mark posts, highlight, highlight posts, status, post status, overview, post overview, featured, custom posts, featured posts, post, posts
-Requires at least: 3.7
+Requires at least: 4.1
 Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -28,8 +28,8 @@ Mark Posts plugin provides an easy way to mark and highlight posts, pages and po
 = Requirements =
 Using the latest version of WordPress and PHP is highly recommended.
 
-* WordPress 3.7 or newer
-* PHP 7.0 or newer (also tested with PHP 8.0)
+* WordPress 4.1 or newer
+* PHP 7.4 or newer (also tested with PHP 8.0)
 
 = Using WP-CLI =
 1. Install and activate: `wp plugin install mark-posts --activate`
@@ -93,15 +93,22 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
 == Changelog ==
 
+= 2.2.0 =
+* Fixes a bug with PHP 8
+* Fixes wicked file permissions
+* Low-level refactoring by @alpipego
+* Sets the minimum required WordPress version to WordPress 4.1
+  Further reading: [Dropping security updates for WordPress versions 3.7 through 4.0](https://wordpress.org/news/2022/09/dropping-security-updates-for-wordpress-versions-3-7-through-4-0/)
+
 = 2.1.0 =
 * Adds support for PHP 8
 
 = 2.0.1 =
-* Fixes a possible XSS vulnerability.
-  Thanks @fuzzyap1 for discovering and responsibly disclosing this vulnerability.
+* Fixes a possible XSS vulnerability
+  Thanks @fuzzyap1 for discovering and responsibly disclosing this vulnerability
 
 = 2.0.0 =
-* Breaking change: Markers are no longer public by default.
+* Breaking change: Markers are no longer public by default
 * Adds [`mark_posts_taxonomy_args`](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Taxonomy-Arguments) filter
 
 = 1.2.4 =
