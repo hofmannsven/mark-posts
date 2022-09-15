@@ -2,7 +2,7 @@
 /**
  * Fired when the plugin is uninstalled.
  *
- * @author    Michael Schoenrock <hello@michaelschoenrock.com>
+ * @author    Michael Schoenrock <hello@michaelschoenrock.com>, Sven Hofmann <info@hofmannsven.com>
  * @license   GPL-2.0+
  */
 
@@ -13,9 +13,9 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 
 // unregister plugin settings
 
-function unregister_plugin()
+function mark_posts_unregister_plugin()
 {
     register_taxonomy('marker', []);
 }
 
-unregister_plugin();
+mark_posts_unregister_plugin();
