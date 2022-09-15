@@ -77,7 +77,7 @@ function mark_posts_misc_functions()
     ?>
     <script>
         (() => {
-            window.history.replaceState({}, '', '<?= admin_url('options-general.php?page=mark-posts') ?>');
+            window.history.replaceState({}, '', '<?php echo esc_url(admin_url('options-general.php?page=mark-posts')) ?>');
         })();
     </script>
     <?php
@@ -231,8 +231,8 @@ function mark_posts_get_all_types()
         ?>
         <p>
             <label>
-                <input name="markertypes[]" type="checkbox" value="<?= esc_attr($post_type) ?>" <?php checked(in_array($post_type, $active_post_types, true)) ?>>
-                <?= esc_html(mark_posts_get_post_type_name($post_type)) ?>
+                <input name="markertypes[]" type="checkbox" value="<?php esc_attr_e($post_type) ?>" <?php checked(in_array($post_type, $active_post_types, true)) ?>>
+                <?php esc_html_e(mark_posts_get_post_type_name($post_type)) ?>
             </label>
         </p>
         <?php
@@ -251,7 +251,7 @@ function mark_posts_dashboard()
     if (!empty($option['mark_posts_dashboard'])) {
         echo ' checked="checked"';
     }
-    echo ' /> ' . __('Dashboard Widget', 'mark-posts') . '</p>';
+    echo ' /> ' . esc_html__('Dashboard Widget', 'mark-posts') . '</p>';
 }
 
 /**
@@ -273,7 +273,7 @@ function mark_posts_show_settings()
 
         if (!empty($markers_terms)) :
             ?>
-            <h3 class="title"><?= esc_html__('Markers', 'mark-posts') ?></h3>
+            <h3 class="title"><?php esc_html_e('Markers', 'mark-posts') ?></h3>
             <table class="form-table">
                 <tbody>
                 <?php
@@ -289,21 +289,21 @@ function mark_posts_show_settings()
                     ?>
                     <tr valign="top">
                         <td scope="row">
-                            <input type="text" name="markernames[]" value="<?= esc_html($marker_term->name) ?>">
+                            <input type="text" name="markernames[]" value="<?php esc_html_e($marker_term->name) ?>">
                         </td>
                         <td width="130">
-                            <input type="text" name="colors[]" value="<?= esc_attr($color) ?>" class="my-color-field" data-default-color="<?= esc_attr($color) ?>"/>
+                            <input type="text" name="colors[]" value="<?php esc_attr_e($color) ?>" class="my-color-field" data-default-color="<?php esc_attr_e($color) ?>"/>
                         </td>
                         <td>
-                            <input type="checkbox" name="delete[]" id="delete_<?= (int)$marker_term->term_id ?>" value="<?= (int)$marker_term->term_id ?>">
-                            <label for="delete_<?= (int)$marker_term->term_id ?>">
-                                <?= esc_html__('delete', 'mark-posts') ?>
+                            <input type="checkbox" name="delete[]" id="delete_<?php echo (int)$marker_term->term_id ?>" value="<?php echo (int)$marker_term->term_id ?>">
+                            <label for="delete_<?php echo (int)$marker_term->term_id ?>">
+                                <?php esc_html_e('delete', 'mark-posts') ?>
                             </label>
-                            <a href="javascript:void(0);" class="mark-posts-initial" data-confirm-msg="<?= esc_attr__('Do you really want to mark all posts with this marker? Note: This will override all your previous set markers. This will only effect the enabled post types.', 'mark-posts') ?>" data-term-id="<?= (int)$marker_term->term_id ?>">
-                                <?= esc_html__('Mark all posts with this marker', 'mark-posts') ?>
+                            <a href="javascript:void(0);" class="mark-posts-initial" data-confirm-msg="<?php esc_attr_e('Do you really want to mark all posts with this marker? Note: This will override all your previous set markers. This will only effect the enabled post types.', 'mark-posts') ?>" data-term-id="<?php echo (int)$marker_term->term_id ?>">
+                                <?php esc_html_e('Mark all posts with this marker', 'mark-posts') ?>
                             </a>
                         </td>
-                        <input type="hidden" name="term_ids[]" value="<?= (int)$marker_term->term_id ?>"/>
+                        <input type="hidden" name="term_ids[]" value="<?php echo (int)$marker_term->term_id ?>"/>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -314,16 +314,16 @@ function mark_posts_show_settings()
             <hr/>
         <?php endif; ?>
 
-        <h3 class="title"><?= esc_html__('Add new Markers', 'mark-posts') ?></h3>
+        <h3 class="title"><?php esc_html_e('Add new Markers', 'mark-posts') ?></h3>
 
         <p>
-            <?= esc_html__('Add new marker (please separate them by comma):', 'mark-posts') ?>
+            <?php esc_html_e('Add new marker (please separate them by comma):', 'mark-posts') ?>
         </p>
 
         <textarea class="js-add-markers" name="markers" style="width:60%;height:120px;"></textarea>
 
         <div class="new-markers">
-            <span class="js-new-markers-intro"><?php _e('Markers to add:', 'mark-posts'); ?></span>
+            <span class="js-new-markers-intro"><?php esc_html_e('Markers to add:', 'mark-posts'); ?></span>
             <span class="js-new-markers"></span>
         </div>
 
@@ -333,7 +333,7 @@ function mark_posts_show_settings()
         <h3 class="title"><?php _e('Enable/Disable Markers', 'mark-posts'); ?></h3>
 
         <p>
-            <?= esc_html__('Enable/Disable markers for specific post types:', 'mark-posts') ?>
+            <?php esc_html_e('Enable/Disable markers for specific post types:', 'mark-posts') ?>
         </p>
 
         <?php
@@ -342,7 +342,7 @@ function mark_posts_show_settings()
         ?>
 
         <hr/>
-        <h3 class="title"><?= esc_html__('Enable/Disable Dashboard Widget', 'mark-posts') ?></h3>
+        <h3 class="title"><?php esc_html_e('Enable/Disable Dashboard Widget', 'mark-posts') ?></h3>
 
         <?php
         mark_posts_dashboard();
@@ -362,7 +362,7 @@ function mark_posts_show_settings()
 
     <?php mark_posts_validate_form(); ?>
 
-    <h2><?php _e('Mark Posts Options', 'mark-posts'); ?></h2>
+    <h2><?php esc_html_e('Mark Posts Options', 'mark-posts'); ?></h2>
 
     <?php mark_posts_show_settings(); ?>
 

@@ -2,6 +2,10 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.2.1
+* Refactors stray PHP short tags
+* Prefixes generic function names
+
 ## 2.2.0
 * Fixes a bug with PHP 8
 * Fixes wicked file permissions

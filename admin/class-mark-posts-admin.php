@@ -414,7 +414,7 @@ class Mark_Posts_Admin
                 <div class="inline-edit-group">
                     <label class="inline-edit-status alignleft">
                         <span class="title"><?php esc_html_e('Marker', 'mark-posts'); ?></span>
-                        <?= (new Mark_Posts_Marker())->mark_posts_select() ?>
+                        <?php echo (new Mark_Posts_Marker())->mark_posts_select() ?>
                     </label>
                 </div>
             </div>
@@ -534,7 +534,7 @@ class Mark_Posts_Admin
      */
     public function mark_posts_column_head(array $columns): array
     {
-        $columns['mark_posts_term_id'] = __('Marker', 'mark-posts');
+        $columns['mark_posts_term_id'] = esc_html__('Marker', 'mark-posts');
 
         return $columns;
     }

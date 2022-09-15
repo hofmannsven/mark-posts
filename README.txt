@@ -4,7 +4,7 @@ Tags: mark posts, highlight, highlight posts, status, post status, overview, pos
 Requires at least: 4.1
 Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -92,6 +92,10 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 5. Shows a screenshot of the Mark Posts dashboard widget.
 
 == Changelog ==
+
+= 2.2.1 =
+* Refactors stray PHP short tags
+* Prefixes generic function names
 
 = 2.2.0 =
 * Fixes a bug with PHP 8
