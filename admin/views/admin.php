@@ -194,6 +194,17 @@ function mark_posts_excluded_post_types(): array
         'tve_lead_1c_signup',
         'tve_form_type',
         'tcb_content_template',
+        'wpcf7_contact_form',
+        'wp_template',
+        'wp_template_part',
+        'wp_global_styles',
+        'visibility_preset',
+        'acf-post-type',
+        'acf-taxonomy',
+        'acf-field-group',
+        'acf-field',
+        'itsec-dashboard',
+        'itsec-dash-card',
     ]);
 }
 

@@ -2,6 +2,10 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.2.2
+* Hides internal (plugin) post types by default
+  (ACF, Block Visibility, Contact Form 7, iThemes Security)
+
 ## 2.2.1
 * Refactors stray PHP short tags
 * Prefixes generic function names
