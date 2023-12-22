@@ -2,7 +2,7 @@
 Contributors: hofmannsven, flymke
 Tags: mark posts, highlight, highlight posts, status, post status, overview, post overview, featured, custom posts, featured posts, post, posts
 Requires at least: 4.1
-Tested up to: 6.2
+Tested up to: 6.4
 Requires PHP: 7.0
 Stable tag: 2.2.2
 License: GPLv2 or later
