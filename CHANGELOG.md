@@ -2,6 +2,9 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.2.3
+* Fixes the assignment of default colors when creating multiple new markers
+
 ## 2.2.2
 * Hides internal (plugin) post types by default
   (ACF, Block Visibility, Contact Form 7, iThemes Security)

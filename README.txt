@@ -4,7 +4,7 @@ Tags: mark posts, highlight, highlight posts, status, post status, overview, pos
 Requires at least: 4.1
 Tested up to: 6.4
 Requires PHP: 7.0
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -29,7 +29,7 @@ Mark Posts plugin provides an easy way to mark and highlight posts, pages and po
 Using the latest version of WordPress and PHP is highly recommended.
 
 * WordPress 4.1 or newer
-* PHP 7.4 or newer (also tested with PHP 8.0)
+* PHP 7.4 or newer (tested up to PHP 8.2)
 
 = Using WP-CLI =
 1. Install and activate: `wp plugin install mark-posts --activate`
@@ -92,6 +92,9 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 5. Shows a screenshot of the Mark Posts dashboard widget.
 
 == Changelog ==
+
+= 2.2.3 =
+* Fixes the assignment of default colors when creating multiple new markers
 
 = 2.2.2 =
 * Hides internal (plugin) post types by default

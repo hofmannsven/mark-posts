@@ -27,7 +27,7 @@ Check our [roadmap](https://github.com/hofmannsven/mark-posts/projects/1) for pl
 Using the latest version of WordPress and PHP is highly recommended.
 
 * WordPress 4.1 or newer
-* PHP 7.4 or newer (also tested with PHP 8.0)
+* PHP 7.4 or newer (tested up to PHP 8.2)
 
 ### Using WP-CLI
 1. Install and activate: `wp plugin install mark-posts --activate`

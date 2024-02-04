@@ -116,20 +116,14 @@ function mark_posts_validate_form()
     $markers = array_map(static function (string $marker) {
         return trim(sanitize_text_field($marker));
     }, explode(',', $_POST['markers'] ?? ''));
-    $i       = count(mark_posts_get_marker_terms()) ?: 0;
-    // get default colors
     $default_colors = mark_posts_get_default_colors();
 
     foreach ($markers as $marker) {
-        $color = $default_colors[$i]; // define default color
         wp_insert_term($marker, 'marker', [
             'name'        => $marker,
             'slug'        => sanitize_title($marker),
-            'description' => $color,
+            'description' => $default_colors[array_rand($default_colors)], // assign default color
         ]);
-        if (++$i > 5) {
-            $i = 0;
-        }
     }
 
     // update markers

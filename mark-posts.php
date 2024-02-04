@@ -3,7 +3,7 @@
  * Plugin Name:     Mark Posts
  * Description:     Mark and highlight posts, pages and posts of custom post types within the posts overview.
  * Plugin URI:      https://wordpress.org/plugins/mark-posts
- * Version:         2.2.2
+ * Version:         2.2.3
  * Author:          Sven Hofmann & Michael Schoenrock
  * Author URI:      https://hofmannsven.com
  * Contributor:     Michael Schoenrock
@@ -28,7 +28,7 @@ if (!defined('WPINC')) {
  *
  */
 if (!defined('WP_MARK_POSTS_VERSION')) {
-    define('WP_MARK_POSTS_VERSION', '2.2.2');
+    define('WP_MARK_POSTS_VERSION', '2.2.3');
 }
 
 /*
