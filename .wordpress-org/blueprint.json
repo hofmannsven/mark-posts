@@ -1,0 +1,29 @@
+{
+  "landingPage": "/wp-admin/edit.php",
+  "preferredVersions": {
+    "php": "8.2",
+    "wp": "6.7"
+  },
+  "login": true,
+  "features": {
+    "networking": true
+  },
+  "steps": [
+    {
+      "step": "wp-cli",
+      "command": "wp plugin install mark-posts --activate"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp term create marker Demo --description=#96d754"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp post meta update 1 mark_posts_term_id 2"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp term recount marker"
+    }
+  ]
+}
