@@ -93,6 +93,10 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
 == Changelog ==
 
+= 2.2.4 =
+* Fixes broken access control vulnerability
+  Thanks @truonghuuphuc for discovering and responsibly disclosing this vulnerability
+
 = 2.2.3 =
 * Fixes the assignment of default colors when creating multiple new markers
 

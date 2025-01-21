@@ -82,7 +82,7 @@ class Mark_Posts_Admin
         // Save action for quick edit
         add_action('save_post', [$this, 'mark_posts_save_quick_edit'], 10, 2);
         // Save action for bulk edit
-        add_action('wp_ajax_mark_posts_save_bulk_edit', [$this, 'mark_posts_save_bulk_edit']);
+        add_action('save_post', [$this, 'mark_posts_save_bulk_edit'], 10, 1);
         // Trash action
         add_action('trash_post', [$this, 'mark_posts_trash'], 1);
         // Delete action
@@ -476,41 +476,30 @@ class Mark_Posts_Admin
     /**
      * Save bulk edit.
      *
-     * @since 1.0.0
+     * @param int $post_id ID of the post
+     *
+     * @return void
+     * @since 2.2.4
      */
-    public function mark_posts_save_bulk_edit()
+    public function mark_posts_save_bulk_edit(int $post_id)
     {
-        // we need the post IDs
-        $post_ids = array_map('intval', $_POST['post_ids'] ?? []);
-
-        if ($post_ids === []) {
+        // Verify bulk edit nonce.
+        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-posts')) {
             return;
         }
 
-        $mark_field = 'mark_posts_term_id';
+        // Get selected marker ID.
+        $marker_id = (int) !empty($_REQUEST['mark_posts_term_id']) ? $_REQUEST['mark_posts_term_id'] : 0;
 
-        if (!array_key_exists($mark_field, $_POST)) {
-            return;
-        }
+        // Update the post meta field.
+        update_post_meta($post_id, 'mark_posts_term_id', $marker_id);
 
-        $marker = (int)$_POST['mark_posts_term_id'];
+        // Update object terms.
+        $term = get_term($marker_id, 'marker');
+        wp_set_object_terms($post_id, $term->name ?? null, 'marker');
 
-        if (empty($marker)) {
-            return;
-        }
-
-        // update for each post ID
-        foreach ($post_ids as $post_id) {
-            // update post meta
-            update_post_meta($post_id, $mark_field, $marker);
-
-            // update terms
-            $term = get_term($marker, 'marker');
-            wp_set_object_terms($post_id, $term->name ?? null, 'marker');
-
-            // Clear transient dashboard stats
-            delete_transient('marker_posts_stats');
-        }
+        // Clear transient dashboard stats.
+        delete_transient('marker_posts_stats');
     }
 
     /**

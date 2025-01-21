@@ -32,33 +32,4 @@
 
     };
 
-    $( '#bulk_edit' ).on( 'click', function() {
-
-        // define the bulk edit row
-        var $bulk_row = $( '#bulk-edit' );
-
-        // get the selected post ids that are being edited
-        var $post_ids = new Array();
-        $bulk_row.find( '#bulk-titles' ).children().each( function() {
-            $post_ids.push( $( this ).attr( 'id' ).replace( /^(ttle)/i, '' ) );
-        });
-
-        // get the custom fields
-        var $mark_posts_term_id = $bulk_row.find( 'select[name="mark_posts_term_id"]' ).val();
-
-        // mark_posts_save the data
-        $.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            async: false,
-            cache: false,
-            data: {
-                action: 'mark_posts_save_bulk_edit',
-                post_ids: $post_ids,
-                mark_posts_term_id: $mark_posts_term_id
-            }
-        });
-
-    });
-
 })(jQuery);

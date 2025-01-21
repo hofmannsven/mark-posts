@@ -2,6 +2,10 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.2.4
+* Fixes broken access control vulnerability
+  Thanks @truonghuuphuc for discovering and responsibly disclosing this vulnerability
+
 ## 2.2.3
 * Fixes the assignment of default colors when creating multiple new markers
 
