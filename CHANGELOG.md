@@ -3,6 +3,8 @@
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
 ## 2.2.4
+* Adds support for the [WordPress playground](https://playground.wordpress.net/?plugin=mark-posts)
+* Hides new internal post types by default
 * Fixes broken access control vulnerability
   Thanks @truonghuuphuc for discovering and responsibly disclosing this vulnerability
 

@@ -19,7 +19,7 @@ class Mark_Posts_Marker
      * @param int $post_id The current post id, empty if not in single post context
      *
      * @return string select with available markers as option
-     *@since 1.0.4
+     * @since 1.0.4
      *
      */
     public function mark_posts_select(int $post_id = 0)
