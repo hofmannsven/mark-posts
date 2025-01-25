@@ -94,7 +94,8 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 == Changelog ==
 
 = 2.2.5 =
-* Adds additional user capability checks (quick edit and bulk edit).
+* Adds additional user capability checks (quick edit and bulk edit)
+* Adds Laravel Pint code style fixer as a developer dependency
 
 = 2.2.4 =
 * Adds support for the [WordPress playground](https://playground.wordpress.net/?plugin=mark-posts)

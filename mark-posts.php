@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name:     Mark Posts
  * Description:     Mark and highlight posts, pages and posts of custom post types within the posts overview.
@@ -15,7 +16,7 @@
  */
 
 // If this file is called directly, abort.
-if (!defined('WPINC')) {
+if (! defined('WPINC')) {
     exit;
 }
 
@@ -27,7 +28,7 @@ if (!defined('WPINC')) {
  * plugin version
  *
  */
-if (!defined('WP_MARK_POSTS_VERSION')) {
+if (! defined('WP_MARK_POSTS_VERSION')) {
     define('WP_MARK_POSTS_VERSION', '2.2.5');
 }
 
@@ -35,7 +36,7 @@ if (!defined('WP_MARK_POSTS_VERSION')) {
  * plugin dir path
  *
  */
-if (!defined('WP_MARK_POSTS_PATH')) {
+if (! defined('WP_MARK_POSTS_PATH')) {
     define('WP_MARK_POSTS_PATH', plugin_dir_path(__FILE__));
 }
 

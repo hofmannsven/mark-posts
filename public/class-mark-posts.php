@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mark Posts.
  *
@@ -7,7 +8,7 @@
  */
 
 // If this file is called directly, abort.
-if (!defined('WPINC')) {
+if (! defined('WPINC')) {
     exit;
 }
 
@@ -61,14 +62,14 @@ class Mark_Posts
      * Return an instance of this class.
      *
      * @return object A single instance of this class.
-     * @since  1.0.0
      *
+     * @since  1.0.0
      */
     public static function get_instance()
     {
         // If the single instance hasn't been set, set it now.
         if (self::$instance === null) {
-            self::$instance = new self();
+            self::$instance = new self;
         }
 
         return self::$instance;
@@ -77,13 +78,12 @@ class Mark_Posts
     /**
      * Fired when the plugin is activated.
      *
-     * @param bool $network_wide True if WPMU superadmin uses
-     *                           "Network Activate" action, false if
-     *                           WPMU is disabled or plugin is
-     *                           activated on an individual blog.
+     * @param  bool  $network_wide  True if WPMU superadmin uses
+     *                              "Network Activate" action, false if
+     *                              WPMU is disabled or plugin is
+     *                              activated on an individual blog.
      *
      * @since 1.0.0
-     *
      */
     public static function activate(bool $network_wide)
     {
@@ -108,8 +108,8 @@ class Mark_Posts
      * - not deleted.
      *
      * @return array Of blog ids.
-     * @since 1.0.0
      *
+     * @since 1.0.0
      */
     private static function get_blog_ids()
     {
@@ -127,6 +127,7 @@ class Mark_Posts
      * Fired for each blog when the plugin is activated.
      *
      * @since 1.0.0
+     *
      * @updated 1.1.0
      */
     private static function single_activate()
@@ -143,13 +144,12 @@ class Mark_Posts
     /**
      * Fired when the plugin is deactivated.
      *
-     * @param bool $network_wide True if WPMU superadmin uses
-     *                           "Network Deactivate" action, false if
-     *                           WPMU is disabled or plugin is
-     *                           deactivated on an individual blog.
+     * @param  bool  $network_wide  True if WPMU superadmin uses
+     *                              "Network Deactivate" action, false if
+     *                              WPMU is disabled or plugin is
+     *                              deactivated on an individual blog.
      *
      * @since 1.0.0
-     *
      */
     public static function deactivate(bool $network_wide)
     {
@@ -179,9 +179,7 @@ class Mark_Posts
     /**
      * Return the plugin slug.
      *
-     * @return string
      * @since 1.0.0
-     *
      */
     public function get_plugin_slug(): string
     {
@@ -191,14 +189,13 @@ class Mark_Posts
     /**
      * Fired when a new site is activated with a WPMU environment.
      *
-     * @param int $blog_id ID of the new blog.
+     * @param  int  $blog_id  ID of the new blog.
      *
      * @since 1.0.0
-     *
      */
     public function mark_posts_activate_new_site(int $blog_id)
     {
-        if (1 !== did_action('wpmu_new_blog')) {
+        if (did_action('wpmu_new_blog') !== 1) {
             return;
         }
 
@@ -249,37 +246,36 @@ class Mark_Posts
     {
         // Add new marker taxonomy
         $labels = [
-            'name'              => __('Marker', 'mark-posts'),
-            'singular_name'     => __('Marker', 'mark-posts'),
-            'search_items'      => __('Search Marker', 'mark-posts'),
-            'all_items'         => __('All Markers', 'mark-posts'),
-            'parent_item'       => __('Parent Marker', 'mark-posts'),
+            'name' => __('Marker', 'mark-posts'),
+            'singular_name' => __('Marker', 'mark-posts'),
+            'search_items' => __('Search Marker', 'mark-posts'),
+            'all_items' => __('All Markers', 'mark-posts'),
+            'parent_item' => __('Parent Marker', 'mark-posts'),
             'parent_item_colon' => __('Parent Marker:', 'mark-posts'),
-            'edit_item'         => __('Edit Marker', 'mark-posts'),
-            'update_item'       => __('Update Marker', 'mark-posts'),
-            'add_new_item'      => __('Add New Marker', 'mark-posts'),
-            'new_item_name'     => __('New Marker Name', 'mark-posts'),
-            'menu_name'         => __('Marker', 'mark-posts'),
+            'edit_item' => __('Edit Marker', 'mark-posts'),
+            'update_item' => __('Update Marker', 'mark-posts'),
+            'add_new_item' => __('Add New Marker', 'mark-posts'),
+            'new_item_name' => __('New Marker Name', 'mark-posts'),
+            'menu_name' => __('Marker', 'mark-posts'),
         ];
 
         $args = [
-            'hierarchical'          => true,
-            'labels'                => $labels,
-            'public'                => false,
-            'show_ui'               => false,
-            'show_admin_column'     => false,
-            'query_var'             => true,
-            'rewrite'               => ['slug' => 'marker'],
+            'hierarchical' => true,
+            'labels' => $labels,
+            'public' => false,
+            'show_ui' => false,
+            'show_admin_column' => false,
+            'query_var' => true,
+            'rewrite' => ['slug' => 'marker'],
             'update_count_callback' => 'marker_update_count_callback',
         ];
 
         /**
          * Filter: 'mark_posts_taxonomy_args' - Allow custom parameters for the marker taxonomy.
          *
-         * @param array $args Array with taxonomy arguments.
+         * @param  array  $args  Array with taxonomy arguments.
          *
          * @since 2.0.0
-         *
          */
         $args = apply_filters('mark_posts_taxonomy_args', $args);
 
@@ -288,17 +284,16 @@ class Mark_Posts
          *
          * See the _update_post_term_count() function in WordPress or http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress for more info.
          *
-         * @param array $terms List of Term taxonomy IDs
-         * @param object $taxonomy Current taxonomy object of terms
+         * @param  array  $terms  List of Term taxonomy IDs
+         * @param  object  $taxonomy  Current taxonomy object of terms
          *
          * @since 1.0.7
-         *
          */
         function marker_update_count_callback($terms, $taxonomy)
         {
             global $wpdb;
 
-            foreach ((array)$terms as $term) {
+            foreach ((array) $terms as $term) {
                 $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term));
 
                 do_action('edit_term_taxonomy', $term, $taxonomy);
