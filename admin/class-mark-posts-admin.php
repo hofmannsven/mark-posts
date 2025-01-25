@@ -290,7 +290,7 @@ class Mark_Posts_Admin
      */
     public function mark_posts_inner_meta_box(WP_Post $post)
     {
-        // Add an nonce field so we can check for it later
+        // Add a nonce field so we can check for it later.
         wp_nonce_field('mark_posts_inner_meta_box', 'mark_posts_inner_meta_box_nonce');
         ?>
         <p><?php esc_html_e('Mark this post as:', 'mark-posts') ?></p>
@@ -303,7 +303,7 @@ class Mark_Posts_Admin
         <p>
             <?php
             printf(
-            /* translators: %s: plugin settings page */
+                /* translators: %s: plugin settings page */
                 wp_kses(__('Click <a href="%s">here</a> to manage Marker categories.', 'mark-posts'), [
                     'a' => [
                         'href' => true,
@@ -351,7 +351,7 @@ class Mark_Posts_Admin
             return;
         }
 
-        /* OK, its safe for us to mark_posts_save the data now. */
+        /* OK, it's safe for us to mark_posts_save the data now. */
 
         // Sanitize the user input.
         $mydata = (int)$_POST['mark_posts_term_id'];
@@ -434,22 +434,27 @@ class Mark_Posts_Admin
      */
     public function mark_posts_save_quick_edit(int $post_id, WP_Post $post)
     {
-        // pointless if $_POST is empty (this happens on bulk edit)
+        // Pointless if $_POST is empty (this happens on bulk edit).
         if (empty($_POST)) {
             return;
         }
 
-        // verify quick edit nonce
+        // Verify quick edit nonce.
         if (!isset($_POST['_inline_edit']) || !wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce')) {
             return;
         }
 
-        // don't mark_posts_save for autosave
+        // Check the user's capabilities.
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+
+        // Don't mark_posts_save for autosave.
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
 
-        // dont mark_posts_save for revisions
+        // Don't mark_posts_save for revisions.
         if (isset($post->post_type) && $post->post_type === 'revision') {
             return;
         }
@@ -462,14 +467,14 @@ class Mark_Posts_Admin
 
         $marker = (int)$_POST[$mark_field];
 
-        // update post meta
+        // Update the post meta field.
         update_post_meta($post_id, $mark_field, $marker);
 
-        // update terms
+        // Update object terms.
         $term = get_term($marker, 'marker');
         wp_set_object_terms($post_id, $term->name ?? null, 'marker');
 
-        // Clear transient dashboard stats
+        // Clear transient dashboard stats.
         delete_transient('marker_posts_stats');
     }
 
@@ -485,6 +490,11 @@ class Mark_Posts_Admin
     {
         // Verify bulk edit nonce.
         if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-posts')) {
+            return;
+        }
+
+        // Check the user's capabilities.
+        if (!current_user_can('edit_post', $post_id)) {
             return;
         }
 

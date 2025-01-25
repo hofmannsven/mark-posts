@@ -2,6 +2,9 @@
 
 Notable changes and release notes of the Mark Posts WordPress plugin.
 
+## 2.2.5
+* Adds additional user capability checks (quick edit and bulk edit).
+
 ## 2.2.4
 * Adds support for the [WordPress playground](https://playground.wordpress.net/?plugin=mark-posts)
 * Hides new internal post types by default
