@@ -4,3 +4,6 @@ risky: true
 
 disabled:
   - single_class_element_per_statement
+
+enabled:
+  - phpdoc_annotation_without_dot

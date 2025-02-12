@@ -1,5 +1,5 @@
 === Mark Posts ===
-Contributors: hofmannsven
+Contributors: hofmannsven, flymke
 Tags: highlight, color, status, tag, featured
 Requires at least: 4.1
 Tested up to: 6.7

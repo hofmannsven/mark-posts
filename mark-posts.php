@@ -12,6 +12,7 @@
  * License:         GPL-2.0+
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:     mark-posts
+ * GitHub URI:      https://github.com/hofmannsven/mark-posts
  */
 
 // If this file is called directly, abort.
