@@ -373,8 +373,8 @@ function mark_posts_show_settings()
     <div class="mark-posts-copy">
         <hr/>
         Mark Posts | Version: <?php echo WP_MARK_POSTS_VERSION; ?> | &copy; <?php echo date('Y'); ?>
-        <a href="http://www.aliquit.de" target="_blank">Michael Schoenrock</a>,
-        <a href="https://hofmannsven.com" target="_blank">Sven Hofmann</a>
+        <a href="http://www.aliquit.de" target="_blank" rel="noopener">Michael Schoenrock</a>,
+        <a href="https://hofmannsven.com" target="_blank" rel="noopener">Sven Hofmann</a>
     </div>
 
 </div>

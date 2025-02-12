@@ -1,10 +1,10 @@
 === Mark Posts ===
-Contributors: hofmannsven, flymke
+Contributors: hofmannsven
 Tags: highlight, color, status, tag, featured
 Requires at least: 4.1
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 2.2.5
+Stable tag: 2.2.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -22,6 +22,10 @@ Mark Posts plugin provides an easy way to mark and highlight posts, pages and po
 * Quick edit, bulk edit and/or edit all markers at once
 * Dashboard widget with marker status count
 * Optional custom setup via filters (check our [wiki](https://github.com/hofmannsven/mark-posts/wiki) for instructions)
+
+= Live Demo =
+
+Try out the features of Mark Posts on the [WordPress playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/hofmannsven/mark-posts/master/.wordpress-org/blueprint.json).
 
 == Installation ==
 
@@ -51,7 +55,7 @@ Using the latest version of WordPress and PHP is highly recommended.
 
 == Support ==
 
-Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/issues) on GitHub.
+Active development of this plugin is handled on GitHub. Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/issues).
 
 == Frequently Asked Questions ==
 
@@ -81,7 +85,7 @@ Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/i
 
 = Where can I get more information and support for this plugin? =
 
-Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
+Visit [Mark Posts on GitHub](https://github.com/hofmannsven/mark-posts).
 
 == Screenshots ==
 
@@ -93,12 +97,16 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 
 == Changelog ==
 
+= 2.2.6 =
+* Fixes a bug where the bulk edit nonce is not set
+  Thanks to René Eger for finding and reporting the issue
+
 = 2.2.5 =
 * Adds additional user capability checks (quick edit and bulk edit)
 * Adds Laravel Pint code style fixer as a developer dependency
 
 = 2.2.4 =
-* Adds support for the [WordPress playground](https://playground.wordpress.net/?plugin=mark-posts)
+* Adds support for the [WordPress playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/hofmannsven/mark-posts/master/.wordpress-org/blueprint.json)
 * Hides new internal post types by default
 * Fixes broken access control vulnerability
   Thanks @truonghuuphuc for discovering and responsibly disclosing this vulnerability
@@ -131,21 +139,5 @@ Visit [Mark Posts on Github](https://github.com/hofmannsven/mark-posts).
 * Breaking change: Markers are no longer public by default
 * Adds [`mark_posts_taxonomy_args`](https://github.com/hofmannsven/mark-posts/wiki/Custom-Marker-Taxonomy-Arguments) filter
 
-= 1.2.4 =
-* Fixes a bug with WordPress 5.5.1
-
-= 1.2.3 =
-* Excludes specific internal plugin post types per default
-
-= 1.2.2 =
-* Sets the minimum required PHP version to PHP 7.0
-
-= 1.2.1 =
-* Excludes internal post types per default
-* Adds [`mark_posts_excluded_post_types`](https://github.com/hofmannsven/mark-posts/wiki/Reset-Custom-Post-Types) filter
-
-= 1.2.0 =
-* Migrates GitHub repository to [hofmannsven/mark-posts](https://github.com/hofmannsven/mark-posts)
-* Adds Composer support
-
-Check our [changelog](https://github.com/hofmannsven/mark-posts/blob/master/CHANGELOG.md) for previous releases.
+= Earlier versions =
+Check out our [full changelog](https://github.com/hofmannsven/mark-posts/blob/master/CHANGELOG.md) for previous releases

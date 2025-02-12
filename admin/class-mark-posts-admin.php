@@ -418,12 +418,11 @@ class Mark_Posts_Admin
      * Save quick edit.
      *
      * @param  int  $post_id  ID of the post e.g. '1'
-     * @param  WP_Post  $post  Information about the post e.g. 'post_type'
      * @return void
      *
      * @since 1.0.0
      */
-    public function mark_posts_save_quick_edit(int $post_id, WP_Post $post)
+    public function mark_posts_save_quick_edit(int $post_id)
     {
         // Pointless if $_POST is empty (this happens on bulk edit).
         if (empty($_POST)) {
@@ -440,13 +439,13 @@ class Mark_Posts_Admin
             return;
         }
 
-        // Don't mark_posts_save for autosave.
+        // Skip autosave.
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
 
-        // Don't mark_posts_save for revisions.
-        if (isset($post->post_type) && $post->post_type === 'revision') {
+        // Skip revisions.
+        if (wp_is_post_revision($post_id)) {
             return;
         }
 
@@ -480,12 +479,22 @@ class Mark_Posts_Admin
     public function mark_posts_save_bulk_edit(int $post_id)
     {
         // Verify bulk edit nonce.
-        if (! wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-posts')) {
+        if (! isset($_REQUEST['_wpnonce']) || ! wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-posts')) {
             return;
         }
 
         // Check the user's capabilities.
         if (! current_user_can('edit_post', $post_id)) {
+            return;
+        }
+
+        // Skip autosave.
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        // Skip revisions.
+        if (wp_is_post_revision($post_id)) {
             return;
         }
 

@@ -17,6 +17,10 @@ Mark Posts plugin provides an easy way to mark and highlight posts, pages and po
 * Dashboard widget with marker status count
 * Optional custom setup via filters (check our [wiki](https://github.com/hofmannsven/mark-posts/wiki) for instructions)
 
+## Live Demo
+
+Try out the features of Mark Posts on the [WordPress playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/hofmannsven/mark-posts/master/.wordpress-org/blueprint.json).
+
 ## Looking ahead
 
 Check our [roadmap](https://github.com/hofmannsven/mark-posts/projects/1) for planned tasks and active issues regarding the further development of the plugin.
@@ -63,9 +67,13 @@ Please read the [changelog](CHANGELOG.md) for more information about what has ch
 
 Please read the [contribution guidelines](CONTRIBUTING.md) for details.
 
+## Translation
+
+If you'd like to help translate this plugin, you can do so on [WordPress Translate](https://translate.wordpress.org/projects/wp-plugins/mark-posts/).
+
 ## Support
 
-Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/issues) on GitHub.
+Active development of this plugin is handled on GitHub. Always feel free to [raise an issue](https://github.com/hofmannsven/mark-posts/issues).
 
 ## Security
 
