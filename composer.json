@@ -30,7 +30,7 @@
     "php": "^7.0|^8.0"
   },
   "require-dev": {
-    "roots/wordpress": "^6.7",
+    "roots/wordpress": "^7.1",
     "laravel/pint": "^1.20"
   },
   "config": {
